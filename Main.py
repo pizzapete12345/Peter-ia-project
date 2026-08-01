@@ -1,5 +1,7 @@
 import pygame
+from characters import Player
 
+player = Player()
 pygame.init()
 screen = pygame.display.set_mode((1280,720))
 clock=pygame.time.Clock()
@@ -10,9 +12,10 @@ while running:
         if event.type == pygame.QUIT:
             running=False
 
-    screen.fill("purple")
+    player.render(screen)
     pygame.display.flip()
     clock.tick(60)
 
 pygame.quit()
+
 
