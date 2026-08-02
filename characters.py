@@ -22,7 +22,7 @@ class Player(GameObject):
         self.x_velocity=0
         self.y_velocity=0
         self.position=(0,0)
-        self.dampening=0.025
+        self.dampening=0
     def get_shape(self):
         return [(300, 100), (150, 300), (450, 300)]
     def movement(self):
