@@ -48,11 +48,11 @@ class Player(GameObject):
             self.y_velocity=self.y_velocity-0.1*math.cos(self.angle)
             self.x_velocity=self.x_velocity+0.1*math.sin(self.angle)
         if key_pressed[pygame.K_d]:
-            self.x_velocity=self.x_velocity+0.1*math.cos(self.angle)
-            self.y_velocity=self.y_velocity+0.1*math.sin(self.angle)
-        if key_pressed[pygame.K_a]:
             self.x_velocity=self.x_velocity-0.1*math.cos(self.angle)
             self.y_velocity=self.y_velocity-0.1*math.sin(self.angle)
+        if key_pressed[pygame.K_a]:
+            self.x_velocity=self.x_velocity+0.1*math.cos(self.angle)
+            self.y_velocity=self.y_velocity+0.1*math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
             self.p1=rotates(self.p1)
