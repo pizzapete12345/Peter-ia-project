@@ -71,43 +71,43 @@ class Player(GameObject):
         if self.x_velocity>=0 and self.y_velocity>=0:
             velocity_angle=0.0
             if self.y_velocity==0:
-                velocity_angle=90.0
-            elif self.x_velocity==0:
                 velocity_angle=0.0
+            elif self.x_velocity==0:
+                velocity_angle=90.0
             else:
                  velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity-self.dampening*math.cos(velocity_angle)
-            self.x_velocity=self.x_velocity-self.dampening*math.sin(velocity_angle)
+            self.y_velocity=self.y_velocity-self.dampening*math.sin(velocity_angle)
+            self.x_velocity=self.x_velocity-self.dampening*math.cos(velocity_angle)
         elif self.x_velocity<=0 and self.y_velocity<=0:
             velocity_angle=0.0
             if self.y_velocity==0:
-                velocity_angle=90.0
-            elif self.x_velocity==0:
                 velocity_angle=0.0
+            elif self.x_velocity==0:
+                velocity_angle=90.0
             else:
                  velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity+self.dampening*math.cos(velocity_angle)
-            self.x_velocity=self.x_velocity+self.dampening*math.sin(velocity_angle)
+            self.y_velocity=self.y_velocity+self.dampening*math.sin(velocity_angle)
+            self.x_velocity=self.x_velocity+self.dampening*math.cos(velocity_angle)
         elif self.x_velocity>=0 and self.y_velocity<=0:
             velocity_angle=0.0
             if self.y_velocity==0:
-                velocity_angle=90.0
-            elif self.x_velocity==0:
                 velocity_angle=0.0
+            elif self.x_velocity==0:
+                velocity_angle=90.0
             else:
                  velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity+self.dampening*math.cos(velocity_angle)
-            self.x_velocity=self.x_velocity+self.dampening*math.sin(velocity_angle)
+            self.y_velocity=self.y_velocity-self.dampening*math.sin(velocity_angle)
+            self.x_velocity=self.x_velocity-self.dampening*math.cos(velocity_angle)
         elif self.x_velocity<=0 and self.y_velocity>=0:
             velocity_angle=0.0
             if self.y_velocity==0:
-                velocity_angle=90.0
-            elif self.x_velocity==0:
                 velocity_angle=0.0
+            elif self.x_velocity==0:
+                velocity_angle=90.0
             else:
                  velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity-self.dampening*math.cos(velocity_angle)
-            self.x_velocity=self.x_velocity-self.dampening*math.sin(velocity_angle)
+            self.y_velocity=self.y_velocity+self.dampening*math.sin(velocity_angle)
+            self.x_velocity=self.x_velocity+self.dampening*math.cos(velocity_angle)
         
 
 
