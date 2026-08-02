@@ -1,4 +1,6 @@
 import pygame
+import math
+
 from vector_functions import rotates 
 from vector_functions import counter_rotates
 
@@ -21,35 +23,50 @@ class GameObject:
 
 class Player(GameObject):
     def __init__(self):
+
         self.p1=(0,25)
         self.p2=(25,-25)
         self.p3=(-25,-25)
+
         self.x_velocity=0
         self.y_velocity=0
         self.position=(640,360)
-        self.dampening=0
+        self.dampening=0.0
+
+        self.angle=3.1415
+
     def get_shape(self):
         return [self.p1, self.p2, self.p3]
     def movement(self):
         key_pressed=pygame.key.get_pressed()
 
         if key_pressed[pygame.K_w]:
-            self.y_velocity=self.y_velocity-0.1
+            self.y_velocity=self.y_velocity+0.1*math.cos(self.angle)
+            self.x_velocity=self.x_velocity-0.1*math.sin(self.angle)
+
         if key_pressed[pygame.K_s]:
-            self.y_velocity=self.y_velocity+0.1
+            self.y_velocity=self.y_velocity-0.1*math.cos(self.angle)
+            self.x_velocity=self.x_velocity+0.1*math.sin(self.angle)
         if key_pressed[pygame.K_d]:
-            self.x_velocity=self.x_velocity+0.1
+            self.x_velocity=self.x_velocity+0.1*math.cos(self.angle)
+            self.y_velocity=self.y_velocity+0.1*math.sin(self.angle)
         if key_pressed[pygame.K_a]:
-            self.x_velocity=self.x_velocity-0.1
+            self.x_velocity=self.x_velocity-0.1*math.cos(self.angle)
+            self.y_velocity=self.y_velocity-0.1*math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
             self.p1=rotates(self.p1)
             self.p2=rotates(self.p2)
             self.p3=rotates(self.p3)
+
+            self.angle=self.angle+0.0175
+
         if key_pressed[pygame.K_q]:
             self.p1=counter_rotates(self.p1)
             self.p2=counter_rotates(self.p2)
             self.p3=counter_rotates(self.p3)
+
+            self.angle=self.angle-0.0175
 
         if self.x_velocity>0:
             self.x_velocity=self.x_velocity-self.dampening
