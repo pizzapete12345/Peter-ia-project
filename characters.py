@@ -77,10 +77,10 @@ class Player(GameObject):
         elif self.y_velocity<0:
             self.y_velocity=self.y_velocity+self.dampening
 
-        if self.x_velocity<0.05 and self.x_velocity>-0.05:
-            self.x_velocity=0
-        if self.y_velocity<0.05 and self.y_velocity>-0.05:
-            self.y_velocity=0
+        #if self.x_velocity<0.05 and self.x_velocity>-0.05:
+           # self.x_velocity=0
+        #if self.y_velocity<0.05 and self.y_velocity>-0.05:
+            #self.y_velocity=0
             
         
         
