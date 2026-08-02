@@ -33,10 +33,10 @@ while running:
     star_3.update(player)
 
     screen.blit(text_vdisplay,(0,0))
-    text_vdisplay=font.render(str(math.sqrt(player.x_velocity**2+player.y_velocity**2)),True,(255,255,255))
-    text_ydisplay=font.render(str(player.y_velocity),True,(255,255,255))
+    text_vdisplay=font.render(f"velocity = {str(math.sqrt(player.x_velocity**2+player.y_velocity**2))}",True,(255,255,255))
+    text_ydisplay=font.render(f"y_velocity = {str(player.y_velocity)}",True,(255,255,255))
     screen.blit(text_ydisplay,(0,50))
-    text_xdisplay=font.render(str(player.x_velocity),True,(255,255,255))
+    text_xdisplay=font.render(f"x_velocity = {str(player.x_velocity)}",True,(255,255,255))
     screen.blit(text_xdisplay,(0,100))
 
 
