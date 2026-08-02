@@ -4,9 +4,9 @@ pygame.init()
 from characters import Player,Star
 
 player = Player()
-star_1 = Star((100,100),0,0)
-star_2 = Star((500,500),0,0)
-star_3 = Star((200,400),0,0)
+star_1 = Star((100,100),0,0,(255,255,255))
+star_2 = Star((500,500),0,0,(255,255,255))
+star_3 = Star((200,400),0,0,(255,255,255))
 
 font=pygame.font.Font(None, 50)
 text_vdisplay=font.render(str(math.sqrt(player.x_velocity**2+player.y_velocity**2)),True,(255,255,255))

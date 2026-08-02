@@ -5,10 +5,11 @@ from vector_functions import rotates
 from vector_functions import counter_rotates
 
 class GameObject:
-    def __init__(self,position,x_velocity,y_velocity):
+    def __init__(self,position,x_velocity,y_velocity,color):
         self.position=position
         self.x_velocity=x_velocity
         self.y_velocity=y_velocity
+        self.color=color
     def render(self,window):
         shape=self.get_shape()
         for i in range(len(shape)):
@@ -19,7 +20,7 @@ class GameObject:
             shape[i]=new_tuple
 
 
-        pygame.draw.polygon(window,(255,0,0),shape,width=0)
+        pygame.draw.polygon(window,self.color,shape,width=0)
 
 class Player(GameObject):
     def __init__(self):
@@ -27,6 +28,8 @@ class Player(GameObject):
         self.p1=(0,25)
         self.p2=(25,-25)
         self.p3=(-25,-25)
+
+        self.color=(255,0,0)
 
         self.x_velocity=0
         self.y_velocity=0
@@ -122,6 +125,6 @@ class Player(GameObject):
 class Star(GameObject):
 
     def get_shape(self):
-        return [(100, 100), (0, 100), (100, 0)]
+        return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
     def update(self,frame):
         self.position=(self.position[0]+frame.x_velocity,self.position[1]+frame.y_velocity)
