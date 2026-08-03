@@ -57,3 +57,8 @@ def dampening(object,dampening_constant):
         object.x_velocity=0
     if object.y_velocity<0.05 and object.y_velocity>-0.05:
             object.y_velocity=0
+
+def detect_key(key):
+    key_detect=pygame.key.get_pressed()
+    if key_detect[key]:
+        return True
