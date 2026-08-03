@@ -2,7 +2,7 @@ import pygame
 import math
 
 from vector_functions import rotates 
-from vector_functions import counter_rotates
+from vector_functions import counter_rotates,dampening
 
 class GameObject:
     def __init__(self,position,x_velocity,y_velocity,color):
@@ -34,12 +34,16 @@ class Player(GameObject):
         self.x_velocity=0
         self.y_velocity=0
         self.position=(640,360)
-        self.dampening=0.025
 
         self.angle=3.1415
 
+        self.reset=False
+
     def get_shape(self):
+        self.reset=False
         return [self.p1, self.p2, self.p3]
+        
+    
     def movement(self):
         key_pressed=pygame.key.get_pressed()
 
@@ -71,60 +75,27 @@ class Player(GameObject):
 
             self.angle=self.angle-0.0175
 
-        if self.x_velocity>=0 and self.y_velocity>=0:
-            velocity_angle=0.0
-            if self.y_velocity==0:
-                velocity_angle=0.0
-            elif self.x_velocity==0:
-                velocity_angle=90.0
-            else:
-                 velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity-self.dampening*math.sin(velocity_angle)
-            self.x_velocity=self.x_velocity-self.dampening*math.cos(velocity_angle)
-        elif self.x_velocity<=0 and self.y_velocity<=0:
-            velocity_angle=0.0
-            if self.y_velocity==0:
-                velocity_angle=0.0
-            elif self.x_velocity==0:
-                velocity_angle=90.0
-            else:
-                 velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity+self.dampening*math.sin(velocity_angle)
-            self.x_velocity=self.x_velocity+self.dampening*math.cos(velocity_angle)
-        elif self.x_velocity>=0 and self.y_velocity<=0:
-            velocity_angle=0.0
-            if self.y_velocity==0:
-                velocity_angle=0.0
-            elif self.x_velocity==0:
-                velocity_angle=90.0
-            else:
-                 velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity-self.dampening*math.sin(velocity_angle)
-            self.x_velocity=self.x_velocity-self.dampening*math.cos(velocity_angle)
-        elif self.x_velocity<=0 and self.y_velocity>=0:
-            velocity_angle=0.0
-            if self.y_velocity==0:
-                velocity_angle=0.0
-            elif self.x_velocity==0:
-                velocity_angle=90.0
-            else:
-                 velocity_angle=math.atan(self.y_velocity/self.x_velocity)
-            self.y_velocity=self.y_velocity+self.dampening*math.sin(velocity_angle)
-            self.x_velocity=self.x_velocity+self.dampening*math.cos(velocity_angle)
-        
+        if key_pressed[pygame.K_b]:
+            dampening(self,0.025)
 
-
-        if self.x_velocity<0.05 and self.x_velocity>-0.05:
+        if key_pressed[pygame.K_r]:
+            self.reset=True
             self.x_velocity=0
-        if self.y_velocity<0.05 and self.y_velocity>-0.05:
             self.y_velocity=0
+
             
         
         
 
 class Star(GameObject):
+    def __init__(self, position, x_velocity, y_velocity, color):
+        super().__init__(position, x_velocity, y_velocity, color)
+        self.orgin_position=self.position
 
     def get_shape(self):
         return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
     def update(self,frame):
         self.position=(self.position[0]+frame.x_velocity,self.position[1]+frame.y_velocity)
+        if frame.reset==True:
+            self.position=self.orgin_position
+
