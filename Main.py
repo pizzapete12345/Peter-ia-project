@@ -38,9 +38,6 @@ with open('starlist.txt','r') as file:
             
 
 
-star_1 = Star((100,100),0,0,"g1")
-star_2 = Star((500,500),0,0,"g1")
-star_3 = Star((200,400),0,0,"g1")
 
 
 
@@ -77,12 +74,6 @@ while running:
     if current_screen == 1:
         player.render(screen)
         player.movement()
-        star_1.render(screen)
-        star_1.update(player)
-        star_2.render(screen)
-        star_2.update(player)
-        star_3.render(screen)
-        star_3.update(player)
         for i in starlist:
             i.render(screen)
             i.update(player)

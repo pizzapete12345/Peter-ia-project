@@ -14,7 +14,19 @@ class GameObject:
         shape=self.get_shape()
         color=(0,0,0)
         if self.color=="g1":
-            color=(255,255,255)
+            color=(255, 244, 234)
+        elif self.color=="o1":
+            color=(155, 176, 255)
+        elif self.color=="b1":
+            color=(170, 191, 255)
+        elif self.color=="a1":
+            color=(202, 215, 255)
+        elif self.color=="f1":
+            color=(248, 247, 255)
+        elif self.color=="k1":
+            color=(255, 210, 161)
+        elif self.color=="m1":
+            color=(255, 204, 111)
         else:
             color=(255,0,0)
         for i in range(len(shape)):
