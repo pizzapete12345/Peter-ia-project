@@ -1,4 +1,5 @@
-frogstar/b1/500,500/
-test/g1/200,400/
-bruh/a1/100,100/
-extra/m1/0,0/
+sun/g1/640,360/
+alphacentauria/g1/839,-11/
+alphacentaurib/k1/855,-12/
+bernard/m1/1238,402/
+name/g1/1031,-159/
