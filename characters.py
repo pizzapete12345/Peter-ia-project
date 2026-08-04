@@ -12,6 +12,11 @@ class GameObject:
         self.color=color
     def render(self,window):
         shape=self.get_shape()
+        color=(0,0,0)
+        if self.color=="g1":
+            color=(255,255,255)
+        else:
+            color=(255,0,0)
         for i in range(len(shape)):
             new_tuple=(
             shape[i][0]+self.position[0],
@@ -20,7 +25,7 @@ class GameObject:
             shape[i]=new_tuple
 
 
-        pygame.draw.polygon(window,self.color,shape,width=0)
+        pygame.draw.polygon(window,color,shape,width=0)
 
 class Player(GameObject):
     def __init__(self):
@@ -89,10 +94,13 @@ class Player(GameObject):
 
 class Star(GameObject):
     def __init__(self, position, x_velocity, y_velocity, color):
-        super().__init__(position, x_velocity, y_velocity, color)
+        super().__init__(position, x_velocity, y_velocity,color)
         self.orgin_position=self.position
+        self.color=color
+        
 
     def get_shape(self):
+        
         return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
     def update(self,frame):
         self.position=(self.position[0]+frame.x_velocity,self.position[1]+frame.y_velocity)

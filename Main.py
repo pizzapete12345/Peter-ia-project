@@ -25,7 +25,7 @@ with open('starlist.txt','r') as file:
                     type=word
                     increaser=2
                 elif increaser==2:
-                    coordinates=word
+                    coordinates=tuple(float(x) for x in word.split(","))
                     increaser=0
 
                 word=""
@@ -34,12 +34,13 @@ with open('starlist.txt','r') as file:
         print(name)
         print(type)
         print(coordinates)
+        starlist.append(Star(coordinates,0,0,type))
             
 
 
-star_1 = Star((100,100),0,0,(255,255,255))
-star_2 = Star((500,500),0,0,(255,255,255))
-star_3 = Star((200,400),0,0,(255,255,255))
+star_1 = Star((100,100),0,0,"g1")
+star_2 = Star((500,500),0,0,"g1")
+star_3 = Star((200,400),0,0,"g1")
 
 
 
@@ -82,6 +83,9 @@ while running:
         star_2.update(player)
         star_3.render(screen)
         star_3.update(player)
+        for i in starlist:
+            i.render(screen)
+            i.update(player)
 
         screen.blit(text_vdisplay,(0,0))
         text_vdisplay=font.render(f"velocity = {str(round(math.sqrt(player.x_velocity**2+player.y_velocity**2),2))}",True,(255,255,255))
