@@ -5,6 +5,38 @@ from characters import Player,Star
 from vector_functions import detect_key
 
 player = Player()
+starlist=[]
+with open('starlist.txt','r') as file:
+    for line in file:
+
+        word=""
+        name=""
+        type=""
+        increaser=0
+        coordinates=""
+
+        for i in line:
+            
+            if i == "/":
+                if increaser==0:
+                    name=word
+                    increaser=1
+                elif increaser==1:
+                    type=word
+                    increaser=2
+                elif increaser==2:
+                    coordinates=word
+                    increaser=0
+
+                word=""
+            else:
+                word=word+i
+        print(name)
+        print(type)
+        print(coordinates)
+            
+
+
 star_1 = Star((100,100),0,0,(255,255,255))
 star_2 = Star((500,500),0,0,(255,255,255))
 star_3 = Star((200,400),0,0,(255,255,255))
