@@ -1,10 +1,10 @@
 import pygame
 import math
 pygame.init()
-from characters import Player,Star
+from characters import Player,Star,player
 from vector_functions import detect_key
 
-player = Player()
+
 starlist=[]
 with open('starlist.txt','r') as file:
     for line in file:
@@ -31,9 +31,7 @@ with open('starlist.txt','r') as file:
                 word=""
             else:
                 word=word+i
-        print(name)
-        print(type)
-        print(coordinates)
+
         starlist.append(Star(coordinates,0,0,type))
             
 

@@ -2,7 +2,8 @@ import pygame
 import math
 
 from vector_functions import rotates 
-from vector_functions import counter_rotates,dampening
+from vector_functions import counter_rotates,dampening,lorentz_transformation
+
 
 class GameObject:
     def __init__(self,position,x_velocity,y_velocity,color):
@@ -101,7 +102,7 @@ class Player(GameObject):
             self.y_velocity=0
 
             
-        
+player=Player()        
         
 
 class Star(GameObject):
@@ -113,7 +114,7 @@ class Star(GameObject):
 
     def get_shape(self):
         
-        return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
+        return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def update(self,frame):
         self.position=(self.position[0]+frame.x_velocity,self.position[1]+frame.y_velocity)
         if frame.reset==True:
