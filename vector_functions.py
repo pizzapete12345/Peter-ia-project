@@ -53,9 +53,9 @@ def dampening(object,dampening_constant):
         
 
 
-    if object.x_velocity<0.05 and object.x_velocity>-0.05:
+    if object.x_velocity<0.2 and object.x_velocity>-0.2:
         object.x_velocity=0
-    if object.y_velocity<0.05 and object.y_velocity>-0.05:
+    if object.y_velocity<0.2 and object.y_velocity>-0.2:
             object.y_velocity=0
 
 def detect_key(key):
@@ -69,8 +69,8 @@ def lorentz_transformation(frame,object,coordinates):
     speed_of_light=10
 
 
-    relative_xvelocity=frame.x_velocity/speed_of_light
-    relative_yvelocity=frame.y_velocity/speed_of_light
+    relative_xvelocity=frame.x_velocity
+    relative_yvelocity=frame.y_velocity
     relative_velocity=math.sqrt(relative_xvelocity**2+relative_yvelocity**2)
     print(relative_velocity)
     if relative_velocity<10E-12:

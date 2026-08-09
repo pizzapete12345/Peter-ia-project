@@ -3,7 +3,7 @@ import math
 
 from vector_functions import rotates 
 from vector_functions import counter_rotates,dampening,lorentz_transformation
-
+from constants import speed_of_light
 
 class GameObject:
     def __init__(self,position,x_velocity,y_velocity,color):
@@ -64,20 +64,26 @@ class Player(GameObject):
     
     def movement(self):
         key_pressed=pygame.key.get_pressed()
+        acceleration=0.01*(1-(self.x_velocity**2+self.y_velocity**2)/speed_of_light**2)
+        print("acceleration =",acceleration)
+
+        if math.sqrt(self.x_velocity**2+self.y_velocity**2)>0.99:
+            dampening(self,0.01)
+
 
         if key_pressed[pygame.K_w]:
-            self.y_velocity=self.y_velocity+0.1*math.cos(self.angle)
-            self.x_velocity=self.x_velocity-0.1*math.sin(self.angle)
+            self.y_velocity=self.y_velocity+acceleration*math.cos(self.angle)
+            self.x_velocity=self.x_velocity-acceleration*math.sin(self.angle)
 
         if key_pressed[pygame.K_s]:
-            self.y_velocity=self.y_velocity-0.1*math.cos(self.angle)
-            self.x_velocity=self.x_velocity+0.1*math.sin(self.angle)
+            self.y_velocity=self.y_velocity-acceleration*math.cos(self.angle)
+            self.x_velocity=self.x_velocity+acceleration*math.sin(self.angle)
         if key_pressed[pygame.K_d]:
-            self.x_velocity=self.x_velocity-0.1*math.cos(self.angle)
-            self.y_velocity=self.y_velocity-0.1*math.sin(self.angle)
+            self.x_velocity=self.x_velocity-acceleration*math.cos(self.angle)
+            self.y_velocity=self.y_velocity-acceleration*math.sin(self.angle)
         if key_pressed[pygame.K_a]:
-            self.x_velocity=self.x_velocity+0.1*math.cos(self.angle)
-            self.y_velocity=self.y_velocity+0.1*math.sin(self.angle)
+                self.x_velocity=self.x_velocity+acceleration*math.cos(self.angle)
+                self.y_velocity=self.y_velocity+acceleration*math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
             self.p1=rotates(self.p1)
@@ -94,7 +100,7 @@ class Player(GameObject):
             self.angle=self.angle-0.0175
 
         if key_pressed[pygame.K_b]:
-            dampening(self,0.025)
+            dampening(self,0.1)
 
         if key_pressed[pygame.K_r]:
             self.reset=True
@@ -116,7 +122,7 @@ class Star(GameObject):
         
         return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def update(self,frame):
-        self.position=(self.position[0]+frame.x_velocity,self.position[1]+frame.y_velocity)
+        self.position=(self.position[0]+10*frame.x_velocity,self.position[1]+10*frame.y_velocity)
         if frame.reset==True:
             self.position=self.orgin_position
 
