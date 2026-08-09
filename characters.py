@@ -84,6 +84,21 @@ class Player(GameObject):
         if key_pressed[pygame.K_a]:
                 self.x_velocity=self.x_velocity+acceleration*math.cos(self.angle)
                 self.y_velocity=self.y_velocity+acceleration*math.sin(self.angle)
+        if key_pressed[pygame.K_1]:
+            self.y_velocity=0
+            self.x_velocity=0
+        if key_pressed[pygame.K_2]:
+            self.y_velocity=0.25*math.cos(self.angle)
+            self.x_velocity=-0.25*math.sin(self.angle)
+        if key_pressed[pygame.K_3]:
+            self.y_velocity=0.5*math.cos(self.angle)
+            self.x_velocity=-0.5*math.sin(self.angle)
+        if key_pressed[pygame.K_4]:
+            self.y_velocity=0.75*math.cos(self.angle)
+            self.x_velocity=-0.75*math.sin(self.angle)
+        if key_pressed[pygame.K_5]:
+            self.y_velocity=0.99*math.cos(self.angle)
+            self.x_velocity=-0.99*math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
             self.p1=rotates(self.p1)
@@ -122,7 +137,7 @@ class Star(GameObject):
         
         return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def update(self,frame):
-        self.position=(self.position[0]+10*frame.x_velocity,self.position[1]+10*frame.y_velocity)
+        self.position=(self.position[0]+speed_of_light*frame.x_velocity,self.position[1]+speed_of_light*frame.y_velocity)
         if frame.reset==True:
             self.position=self.orgin_position
 
