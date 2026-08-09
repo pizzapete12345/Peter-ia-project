@@ -71,6 +71,7 @@ def lorentz_transformation(frame,object,coordinates):
 
     relative_xvelocity=frame.x_velocity
     relative_yvelocity=frame.y_velocity
+
     relative_velocity=math.sqrt(relative_xvelocity**2+relative_yvelocity**2)
     print(relative_velocity)
     if relative_velocity<10E-12:
@@ -85,21 +86,25 @@ def lorentz_transformation(frame,object,coordinates):
 
     for i in coordinates:
         
-        x=i[0]+object.position[0]-641
-        y=i[1]+object.position[1]-361
+        x=i[0]+object.position[0]-640
+        y=i[1]+object.position[1]-360
+        print(x-(frame.position[0]-640))
         dotproduct=x*relative_xvelocity+y*relative_yvelocity
         the_part_that_changes=dotproduct/relative_velocity**2
-        relativex=the_part_that_changes*relative_xvelocity
-        relativey=the_part_that_changes*relative_yvelocity
+
+        parralelx=the_part_that_changes*relative_xvelocity
+        parralely=the_part_that_changes*relative_yvelocity
+        perpendiculerx=x-parralelx
+        perpendiculery=y-parralely
 
         #print("x=",x+641-object.position[0],"y=",y+361-object.position[1])
         distance=math.sqrt(x**2+y**2)
-        x=x-relativex+lorentz_factor*relativex
-        y=y-relativey+lorentz_factor*relativey
-        output.append((x+641-object.position[0],y+361-object.position[1]))
+        x=perpendiculerx+parralelx/lorentz_factor
+        y=perpendiculery+parralely/lorentz_factor
+        output.append((x+640-object.position[0],y+360-object.position[1]))
 
     return(output)
-
+ 
 
 
 
