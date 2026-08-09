@@ -65,7 +65,6 @@ class Player(GameObject):
     def movement(self):
         key_pressed=pygame.key.get_pressed()
         acceleration=0.01*(1-(self.x_velocity**2+self.y_velocity**2)/speed_of_light**2)
-        print("acceleration =",acceleration)
 
         if math.sqrt(self.x_velocity**2+self.y_velocity**2)>0.99:
             dampening(self,0.01)

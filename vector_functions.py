@@ -64,31 +64,23 @@ def detect_key(key):
         return True
 
 def lorentz_transformation(frame,object,coordinates):
-    print("hello")
     output=[]
-    speed_of_light=10
+
 
 
     relative_xvelocity=frame.x_velocity
     relative_yvelocity=frame.y_velocity
 
     relative_velocity=math.sqrt(relative_xvelocity**2+relative_yvelocity**2)
-    print(relative_velocity)
     if relative_velocity<10E-12:
         return(coordinates)
-    unit_vector=(relative_xvelocity/relative_velocity,relative_yvelocity/relative_velocity)
 
-
-    
     lorentz_factor=1/math.sqrt(1-(relative_velocity**2))
-    print(lorentz_factor)
-
 
     for i in coordinates:
         
         x=i[0]+object.position[0]-640
         y=i[1]+object.position[1]-360
-        print(x-(frame.position[0]-640))
         dotproduct=x*relative_xvelocity+y*relative_yvelocity
         the_part_that_changes=dotproduct/relative_velocity**2
 
@@ -97,8 +89,6 @@ def lorentz_transformation(frame,object,coordinates):
         perpendiculerx=x-parralelx
         perpendiculery=y-parralely
 
-        #print("x=",x+641-object.position[0],"y=",y+361-object.position[1])
-        distance=math.sqrt(x**2+y**2)
         x=perpendiculerx+parralelx/lorentz_factor
         y=perpendiculery+parralely/lorentz_factor
         output.append((x+640-object.position[0],y+360-object.position[1]))

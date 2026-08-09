@@ -1,7 +1,7 @@
 import pygame
 import math
 pygame.init()
-from characters import Player,Star,player
+from characters import Star,player
 from vector_functions import detect_key
 
 
