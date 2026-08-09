@@ -87,9 +87,15 @@ def lorentz_transformation(frame,object,coordinates):
         
         x=i[0]+object.position[0]-641
         y=i[1]+object.position[1]-361
+        dotproduct=x*relative_xvelocity+y*relative_yvelocity
+        the_part_that_changes=dotproduct/relative_velocity**2
+        relativex=the_part_that_changes*relative_xvelocity
+        relativey=the_part_that_changes*relative_yvelocity
+
+        #print("x=",x+641-object.position[0],"y=",y+361-object.position[1])
         distance=math.sqrt(x**2+y**2)
-        x=lorentz_factor*(x-relative_xvelocity*unit_vector[0])
-        y=lorentz_factor*(y-relative_yvelocity*unit_vector[1])
+        x=x-relativex+lorentz_factor*relativex
+        y=y-relativey+lorentz_factor*relativey
         output.append((x+641-object.position[0],y+361-object.position[1]))
 
     return(output)

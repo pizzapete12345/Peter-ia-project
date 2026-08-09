@@ -1,1 +1,1 @@
-speed_of_light=10
+speed_of_light=1
