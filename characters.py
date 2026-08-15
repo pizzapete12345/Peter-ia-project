@@ -2,7 +2,7 @@ import pygame
 import math
 
 from vector_functions import rotates 
-from vector_functions import counter_rotates,dampening,lorentz_transformation
+from vector_functions import dampening,lorentz_transformation,penrose_transformation
 from constants import speed_of_light
 
 class GameObject:
@@ -13,6 +13,8 @@ class GameObject:
         self.color=color
     def render(self,window):
         shape_measured=self.get_shape_measured()
+        shape_original=self.get_shape_original()
+        print(shape_measured)
         color=(0,0,0)
         if self.color=="g1":
             color=(255, 244, 234)
@@ -37,8 +39,17 @@ class GameObject:
             )
             shape_measured[i]=new_tuple
 
+        for i in range(len(shape_original)):
+            new_tuple=(
+            shape_original[i][0]+self.position[0],
+            shape_original[i][1]+self.position[1]
+            )
+            shape_original[i]=new_tuple
 
+        pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
         pygame.draw.polygon(window,color,shape_measured,width=0)
+
+
 
 class Player():
     def __init__(self):
@@ -100,16 +111,16 @@ class Player():
             self.x_velocity=-0.99*math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
-            self.p1=rotates(self.p1)
-            self.p2=rotates(self.p2)
-            self.p3=rotates(self.p3)
+            self.p1=rotates(self.p1,1)
+            self.p2=rotates(self.p2,1)
+            self.p3=rotates(self.p3,1)
 
             self.angle=self.angle+0.0175
 
         if key_pressed[pygame.K_q]:
-            self.p1=counter_rotates(self.p1)
-            self.p2=counter_rotates(self.p2)
-            self.p3=counter_rotates(self.p3)
+            self.p1=rotates(self.p1,-1)
+            self.p2=rotates(self.p2,-1)
+            self.p3=rotates(self.p3,-1)
 
             self.angle=self.angle-0.0175
 
@@ -129,12 +140,35 @@ class Star(GameObject):
     def __init__(self, position, x_velocity, y_velocity, color):
         super().__init__(position, x_velocity, y_velocity,color)
         self.orgin_position=self.position
+        self.photon_list=[]
         self.color=color
         
 
     def get_shape_measured(self):
         
         return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
+    def get_shape_observed(self):
+        list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
+        for i in list:
+            self.photon_list.append([penrose_transformation(player,self,i),0])
+        list=[]
+        for i in self.photon_list:
+            i[1]=i[1]+speed_of_light
+            print(i[0])
+            if type(i[0][0]) is tuple:
+                if i[1]>=math.sqrt((i[0][0][0]-640)**2+(i[0][0][1]-360)**2):
+                    list.append(i[0])
+                    self.photon_list.remove(i)
+            else:
+                if i[1]>=math.sqrt((i[0][0]-640)**2+(i[0][1]-360)**2):
+                    list.append(i[0])
+                    self.photon_list.remove(i)
+        if len(list)<3:
+            return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
+        else:
+            return list
+                
+
     def get_shape_original(self):
         return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
     def update(self,frame):

@@ -2,12 +2,10 @@ import math
 import pygame
 
 
-def rotates(point):
+def rotates(point,amount):
     vector=pygame.math.Vector2(point)
-    return(vector.rotate(1))
-def counter_rotates(points):
-    vector=pygame.math.Vector2(points)
-    return(vector.rotate(-1))
+    return(vector.rotate(amount))
+
 
 def dampening(object,dampening_constant):
     if object.x_velocity>=0 and object.y_velocity>=0:
@@ -96,6 +94,35 @@ def lorentz_transformation(frame,object,coordinates):
     return(output)
  
 
+def penrose_transformation(frame,object,vertex):
+    output=[]
 
+
+
+    relative_xvelocity=frame.x_velocity
+    relative_yvelocity=frame.y_velocity
+
+    relative_velocity=math.sqrt(relative_xvelocity**2+relative_yvelocity**2)
+    if relative_velocity<10E-12:
+        return(vertex)
+
+    lorentz_factor=1/math.sqrt(1-(relative_velocity**2))
+
+    x=vertex[0]+object.position[0]-640
+    y=vertex[1]+object.position[1]-360
+    dotproduct=x*relative_xvelocity+y*relative_yvelocity
+    the_part_that_changes=dotproduct/relative_velocity**2
+
+    parralelx=the_part_that_changes*relative_xvelocity
+    parralely=the_part_that_changes*relative_yvelocity
+    perpendiculerx=x-parralelx
+    perpendiculery=y-parralely
+
+    x=perpendiculerx+parralelx/lorentz_factor
+    y=perpendiculery+parralely/lorentz_factor
+    output.append((x+640,y+360))
+
+    return(output)
+ 
 
 
