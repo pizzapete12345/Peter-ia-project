@@ -12,7 +12,7 @@ class GameObject:
         self.y_velocity=y_velocity
         self.color=color
     def render(self,window):
-        shape=self.get_shape()
+        shape_measured=self.get_shape_measured()
         color=(0,0,0)
         if self.color=="g1":
             color=(255, 244, 234)
@@ -30,17 +30,17 @@ class GameObject:
             color=(255, 204, 111)
         else:
             color=(255,0,0)
-        for i in range(len(shape)):
+        for i in range(len(shape_measured)):
             new_tuple=(
-            shape[i][0]+self.position[0],
-            shape[i][1]+self.position[1]
+            shape_measured[i][0]+self.position[0],
+            shape_measured[i][1]+self.position[1]
             )
-            shape[i]=new_tuple
+            shape_measured[i]=new_tuple
 
 
-        pygame.draw.polygon(window,color,shape,width=0)
+        pygame.draw.polygon(window,color,shape_measured,width=0)
 
-class Player(GameObject):
+class Player():
     def __init__(self):
 
         self.p1=(0,25)
@@ -57,9 +57,9 @@ class Player(GameObject):
 
         self.reset=False
 
-    def get_shape(self):
+    def render(self,window):
         self.reset=False
-        return [self.p1, self.p2, self.p3]
+        pygame.draw.polygon(window,self.color,[(self.p1[0]+self.position[0],self.p1[1]+self.position[1]),(self.p2[0]+self.position[0],self.p2[1]+self.position[1]),(self.p3[0]+self.position[0],self.p3[1]+self.position[1])],width=0)
         
     
     def movement(self):
@@ -132,9 +132,11 @@ class Star(GameObject):
         self.color=color
         
 
-    def get_shape(self):
+    def get_shape_measured(self):
         
         return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
+    def get_shape_original(self):
+        return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
     def update(self,frame):
         self.position=(self.position[0]+speed_of_light*frame.x_velocity,self.position[1]+speed_of_light*frame.y_velocity)
         if frame.reset==True:
