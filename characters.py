@@ -45,12 +45,12 @@ class GameObject:
             shape_original[i][1]+self.position[1]
             )
             shape_original[i]=new_tuple
-        for i in range(len(shape_observed)):
-            new_tuple=(
-            shape_observed[i][0]+self.position[0],
-            shape_observed[i][1]+self.position[1]
-            )
-            shape_observed[i]=new_tuple
+        #for i in range(len(shape_observed)):
+         #   new_tuple=(
+          #  shape_observed[i][0]+self.position[0],
+           # shape_observed[i][1]+self.position[1]
+            #)
+            #shape_observed[i]=new_tuple
 
         pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
         pygame.draw.polygon(window,(0,255,0),shape_observed,width=0)
@@ -161,13 +161,25 @@ class Star(GameObject):
         for i in self.photon_list:
             a=i[0][0]-640
             b=i[0][1]-360
-            i[1]=i[1]+speed_of_light*lorentz_calculator(player)
-            if math.sqrt(a**2+b**2)<i[1]:
+            distance=math.sqrt(a**2+b**2)
+            i[1]=i[1]+speed_of_light
+            if distance<i[1]:
                 self.lastknown=i[0]
+                for vertex in list:
+                    
+                    final_vertex=penrose_transformation(player,self.lastknown,vertex)
+                    distance_vertex=math.sqrt(final_vertex[0]**2+final_vertex[1]**2)
+                    unit_vector=(final_vertex[0]/distance_vertex,final_vertex[1]/distance_vertex)
+                    offset=(distance/speed_of_light)-(distance_vertex/speed_of_light)
+                    final_vertex=(offset*unit_vector[0]+a,offset*unit_vector[1]+b)
+                    #print(offset*unit_vector[0],offset*unit_vector[1])
+                    list[list.index(vertex)]=final_vertex
+                    
+
+
                 self.photon_list.remove(i)
-        print("not test")
-        print(self.lastknown)
-        return lorentz_transformation(player,self.lastknown,list)
+
+        return list
 
                 
 

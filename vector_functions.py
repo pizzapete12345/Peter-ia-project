@@ -100,19 +100,19 @@ def lorentz_transformation(frame,object_positition,coordinates):
     return(output)
  
 
-def penrose_transformation(frame,object,vertex):
+def penrose_transformation(frame,object_position,vertex):
 
     relative_xvelocity=frame.x_velocity
     relative_yvelocity=frame.y_velocity
 
     relative_velocity=math.sqrt(relative_xvelocity**2+relative_yvelocity**2)
+    x=vertex[0]+object_position[0]-640
+    y=vertex[1]+object_position[1]-360
     if relative_velocity<10E-12:
-        return(vertex)
+        return (x,y)
 
     lorentz_factor=1/math.sqrt(1-(relative_velocity**2))
 
-    x=vertex[0]+object.position[0]-640
-    y=vertex[1]+object.position[1]-360
     dotproduct=x*relative_xvelocity+y*relative_yvelocity
     the_part_that_changes=dotproduct/relative_velocity**2
 
@@ -123,7 +123,7 @@ def penrose_transformation(frame,object,vertex):
 
     x=perpendiculerx+parralelx/lorentz_factor
     y=perpendiculery+parralely/lorentz_factor
-    vertex=(x+640,y+360)
+    vertex=(x,y)
 
     return(vertex)
  
