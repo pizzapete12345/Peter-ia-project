@@ -171,7 +171,7 @@ class Star(GameObject):
                     distance_vertex=math.sqrt(final_vertex[0]**2+final_vertex[1]**2)
                     unit_vector=(final_vertex[0]/distance_vertex,final_vertex[1]/distance_vertex)
                     offset=(distance/speed_of_light)-(distance_vertex/speed_of_light)
-                    final_vertex=(offset*unit_vector[0]+a,offset*unit_vector[1]+b)
+                    final_vertex=(offset*unit_vector[0]+a+640,offset*unit_vector[1]+b+360)
                     #print(offset*unit_vector[0],offset*unit_vector[1])
                     list[list.index(vertex)]=final_vertex
                     
