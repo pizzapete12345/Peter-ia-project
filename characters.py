@@ -12,7 +12,8 @@ class GameObject:
         self.y_velocity=y_velocity
         self.color=color
     def render(self,window):
-        shape_measured=self.get_shape_observed()
+        shape_measured=self.get_shape_measured()
+        shape_observed=self.get_shape_observed()
         shape_original=self.get_shape_original()
         color=(0,0,0)
         if self.color=="g1":
@@ -44,8 +45,15 @@ class GameObject:
             shape_original[i][1]+self.position[1]
             )
             shape_original[i]=new_tuple
+        for i in range(len(shape_observed)):
+            new_tuple=(
+            shape_observed[i][0]+self.position[0],
+            shape_observed[i][1]+self.position[1]
+            )
+            shape_observed[i]=new_tuple
 
-        #pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
+        pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
+        pygame.draw.polygon(window,(0,255,0),shape_observed,width=0)
         pygame.draw.polygon(window,color,shape_measured,width=0)
 
 
@@ -146,7 +154,7 @@ class Star(GameObject):
 
     def get_shape_measured(self):
         
-        return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
+        return lorentz_transformation(player,self.position,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def get_shape_observed(self):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
         self.photon_list.append([self.position,0])
