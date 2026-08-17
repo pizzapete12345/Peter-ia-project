@@ -1,1 +1,1 @@
-speed_of_light=5
+speed_of_light=1

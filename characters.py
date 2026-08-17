@@ -2,7 +2,7 @@ import pygame
 import math
 
 from vector_functions import rotates 
-from vector_functions import dampening,lorentz_transformation,penrose_transformation
+from vector_functions import dampening,lorentz_transformation,penrose_transformation,lorentz_calculator
 from constants import speed_of_light
 
 class GameObject:
@@ -12,9 +12,8 @@ class GameObject:
         self.y_velocity=y_velocity
         self.color=color
     def render(self,window):
-        shape_measured=self.get_shape_measured()
+        shape_measured=self.get_shape_observed()
         shape_original=self.get_shape_original()
-        print(shape_measured)
         color=(0,0,0)
         if self.color=="g1":
             color=(255, 244, 234)
@@ -46,7 +45,7 @@ class GameObject:
             )
             shape_original[i]=new_tuple
 
-        pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
+        #pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
         pygame.draw.polygon(window,color,shape_measured,width=0)
 
 
@@ -141,6 +140,7 @@ class Star(GameObject):
         super().__init__(position, x_velocity, y_velocity,color)
         self.orgin_position=self.position
         self.photon_list=[]
+        self.lastknown=self.position
         self.color=color
         
 
@@ -149,24 +149,18 @@ class Star(GameObject):
         return lorentz_transformation(player,self,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def get_shape_observed(self):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-        for i in list:
-            self.photon_list.append([penrose_transformation(player,self,i),0])
-        list=[]
+        self.photon_list.append([self.position,0])
         for i in self.photon_list:
-            i[1]=i[1]+speed_of_light
-            print(i[0])
-            if type(i[0][0]) is tuple:
-                if i[1]>=math.sqrt((i[0][0][0]-640)**2+(i[0][0][1]-360)**2):
-                    list.append(i[0])
-                    self.photon_list.remove(i)
-            else:
-                if i[1]>=math.sqrt((i[0][0]-640)**2+(i[0][1]-360)**2):
-                    list.append(i[0])
-                    self.photon_list.remove(i)
-        if len(list)<3:
-            return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-        else:
-            return list
+            a=i[0][0]-640
+            b=i[0][1]-360
+            i[1]=i[1]+speed_of_light*lorentz_calculator(player)
+            if math.sqrt(a**2+b**2)<i[1]:
+                self.lastknown=i[0]
+                self.photon_list.remove(i)
+        print("not test")
+        print(self.lastknown)
+        return lorentz_transformation(player,self.lastknown,list)
+
                 
 
     def get_shape_original(self):
