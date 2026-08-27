@@ -13,7 +13,7 @@ class GameObject:
         self.color=color
     def render(self,window):
         shape_measured=self.get_shape_measured()
-        shape_observed=self.get_shape_observed()
+        shape_observed=self.get_shape_observed(player)
         shape_original=self.get_shape_original()
         color=(0,0,0)
         if self.color=="g1":
@@ -132,7 +132,7 @@ class Player():
             self.angle=self.angle-0.0175
 
         if key_pressed[pygame.K_b]:
-            dampening(self,0.1)
+            dampening(self,0.01)
 
         if key_pressed[pygame.K_r]:
             self.reset=True
@@ -156,11 +156,12 @@ class Star(GameObject):
     def get_shape_measured(self):
         
         return lorentz_transformation(player,self.position,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
-    def get_shape_observed(self):
+    def get_shape_observed(self,frame):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
         for i in list:
             self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),list.index(i),0])
         for i in self.photon_list:
+            i[0]=(i[0][0]+frame.x_velocity*speed_of_light,i[0][1]+frame.y_velocity*speed_of_light)
             i[2]=i[2]+speed_of_light
             x=i[0][0]
             y=i[0][1]
@@ -168,6 +169,10 @@ class Star(GameObject):
             if distance<=i[2]:
                 self.output_list[i[1]]=penrose_transformation(player,i[0])
                 self.photon_list.remove(i)
+
+            
+
+
 
                     
 

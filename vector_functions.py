@@ -51,9 +51,9 @@ def dampening(object,dampening_constant):
         
 
 
-    if object.x_velocity<0.2 and object.x_velocity>-0.2:
+    if object.x_velocity<0.02 and object.x_velocity>-0.02:
         object.x_velocity=0
-    if object.y_velocity<0.2 and object.y_velocity>-0.2:
+    if object.y_velocity<0.02 and object.y_velocity>-0.02:
             object.y_velocity=0
 
 def detect_key(key):
