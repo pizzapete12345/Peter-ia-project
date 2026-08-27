@@ -14,3 +14,20 @@
          #   return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
         #else:
          #   return list
+
+        for i in self.photon_list:
+            a=i[0][0]-640
+            b=i[0][1]-360
+            distance=math.sqrt(a**2+b**2)
+            i[1]=i[1]+speed_of_light
+            if distance<i[1]:
+                self.lastknown=i[0]
+                for vertex in list:
+                    
+                    final_vertex=penrose_transformation(player,self.lastknown,vertex)
+                    distance_vertex=math.sqrt(final_vertex[0]**2+final_vertex[1]**2)
+                    unit_vector=(final_vertex[0]/distance_vertex,final_vertex[1]/distance_vertex)
+                    offset=(distance/speed_of_light)-(distance_vertex/speed_of_light)
+                    final_vertex=(offset*unit_vector[0]+a+640,offset*unit_vector[1]+b+360)
+                    #print(offset*unit_vector[0],offset*unit_vector[1])
+                    list[list.index(vertex)]=final_vertex

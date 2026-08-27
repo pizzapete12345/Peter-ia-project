@@ -149,6 +149,7 @@ class Star(GameObject):
         self.orgin_position=self.position
         self.photon_list=[]
         self.lastknown=self.position
+        self.output_list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
         self.color=color
         
 
@@ -157,29 +158,23 @@ class Star(GameObject):
         return lorentz_transformation(player,self.position,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def get_shape_observed(self):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-        self.photon_list.append([self.position,0])
+        for i in list:
+            self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),list.index(i),0])
         for i in self.photon_list:
-            a=i[0][0]-640
-            b=i[0][1]-360
-            distance=math.sqrt(a**2+b**2)
-            i[1]=i[1]+speed_of_light
-            if distance<i[1]:
-                self.lastknown=i[0]
-                for vertex in list:
-                    
-                    final_vertex=penrose_transformation(player,self.lastknown,vertex)
-                    distance_vertex=math.sqrt(final_vertex[0]**2+final_vertex[1]**2)
-                    unit_vector=(final_vertex[0]/distance_vertex,final_vertex[1]/distance_vertex)
-                    offset=(distance/speed_of_light)-(distance_vertex/speed_of_light)
-                    final_vertex=(offset*unit_vector[0]+a+640,offset*unit_vector[1]+b+360)
-                    #print(offset*unit_vector[0],offset*unit_vector[1])
-                    list[list.index(vertex)]=final_vertex
-                    
-
-
+            i[2]=i[2]+speed_of_light
+            x=i[0][0]
+            y=i[0][1]
+            distance=math.sqrt(x**2+y**2)
+            if distance<=i[2]:
+                self.output_list[i[1]]=penrose_transformation(player,i[0])
                 self.photon_list.remove(i)
 
-        return list
+                    
+
+
+
+
+        return self.output_list
 
                 
 
