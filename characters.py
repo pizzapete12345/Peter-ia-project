@@ -52,9 +52,9 @@ class GameObject:
             #)
             #shape_observed[i]=new_tuple
 
-        #pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
+        pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
         pygame.draw.polygon(window,(0,255,0),shape_observed,width=0)
-        #pygame.draw.polygon(window,color,shape_measured,width=0)
+        pygame.draw.polygon(window,color,shape_measured,width=0)
 
 
 
@@ -158,28 +158,36 @@ class Star(GameObject):
     
     def get_shape_observed(self,frame):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-        for pos,i in enumerate(list):
-            # print(self.position[0]-frame.position[0])
-            self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),pos,0])
-        update_list=[]
-        for i in self.photon_list:
-            i[0]=(i[0][0]+frame.x_velocity*speed_of_light,i[0][1]+frame.y_velocity*speed_of_light)
-            i[2]=i[2]+speed_of_light
-            x=i[0][0]
-            y=i[0][1]
-            distance=math.sqrt(x**2+y**2)-734.3
-            center_distance=math.sqrt((self.position[0]-640)**2+(self.position[1]-360)**2)
-            if distance<=i[2]:
-                relative_distance=math.sqrt((distance/speed_of_light-center_distance/speed_of_light)**2)
-                print(relative_distance)
-                temp=penrose_transformation(player,i[0])
-                self.output_list[i[1]]=(temp[0]+relative_distance,temp[1]+relative_distance)
-            else:
-                update_list.append(i)
+        offset=self.get_shape_measured()
 
+        observer_x,observer_y=frame.position
+        photon_velocityx=speed_of_light*frame.x_velocity
+        photon_velocity=speed_of_light*frame.y_velocity
+        photon_velocity_magnitude=math.sqrt(photon_velocityx**2+photon_velocity**2)
 
-        self.photon_list=update_list    
-        return self.output_list
+        observed_shape=[]
+
+        for i in offset:
+            x=i[0]+self.position[0]
+            y=i[1]+self.position[1]
+
+            dx=x-observer_x
+            dy=y-observer_y
+
+            a=speed_of_light-photon_velocity_magnitude
+            b=-2.0*(dx*photon_velocityx+dy+photon_velocity)
+            c=-(dx**2+dy**2)
+
+            discrimanent=b**2-4.0*a*c
+            if discrimanent<0:
+                discrimanent=0
+            time_of_emmission=(-b-math.sqrt(discrimanent))/(2.0*a)
+
+            x_observed=x+photon_velocityx*time_of_emmission
+            y_observed=y+photon_velocity*time_of_emmission
+
+            observed_shape.append((x_observed,y_observed))
+        return observed_shape
 
                 
 
