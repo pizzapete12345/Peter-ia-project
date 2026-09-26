@@ -168,8 +168,12 @@ class Star(GameObject):
             x=i[0][0]
             y=i[0][1]
             distance=math.sqrt(x**2+y**2)-734.3
+            center_distance=math.sqrt((self.position[0]-640)**2+(self.position[1]-360)**2)
             if distance<=i[2]:
-                self.output_list[i[1]]=penrose_transformation(player,i[0])
+                relative_distance=math.sqrt((distance/speed_of_light-center_distance/speed_of_light)**2)
+                print(relative_distance)
+                temp=penrose_transformation(player,i[0])
+                self.output_list[i[1]]=(temp[0]+relative_distance,temp[1]+relative_distance)
             else:
                 update_list.append(i)
 
