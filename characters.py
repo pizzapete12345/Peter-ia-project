@@ -160,6 +160,7 @@ class Star(GameObject):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
         for i in list:
             self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),list.index(i),0])
+        update_list=[]
         for i in self.photon_list:
             i[0]=(i[0][0]+frame.x_velocity*speed_of_light,i[0][1]+frame.y_velocity*speed_of_light)
             i[2]=i[2]+speed_of_light
@@ -168,17 +169,11 @@ class Star(GameObject):
             distance=math.sqrt(x**2+y**2)
             if distance<=i[2]:
                 self.output_list[i[1]]=penrose_transformation(player,i[0])
-                self.photon_list.remove(i)
-
-            
-
+            else:
+                update_list.append(i)
 
 
-                    
-
-
-
-
+        self.photon_list=update_list    
         return self.output_list
 
                 
