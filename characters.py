@@ -52,9 +52,9 @@ class GameObject:
             #)
             #shape_observed[i]=new_tuple
 
-        pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
+        #pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
         pygame.draw.polygon(window,(0,255,0),shape_observed,width=0)
-        pygame.draw.polygon(window,color,shape_measured,width=0)
+        #pygame.draw.polygon(window,color,shape_measured,width=0)
 
 
 
@@ -149,16 +149,17 @@ class Star(GameObject):
         self.orgin_position=self.position
         self.photon_list=[]
         self.lastknown=self.position
-        self.output_list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
+        self.output_list=[(660, 380),(685,360), (660, 340),(640,315) ,(620, 340),(595,360),(620, 380),(640,405)]
         self.color=color
         
 
     def get_shape_measured(self):
-        
         return lorentz_transformation(player,self.position,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
+    
     def get_shape_observed(self,frame):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
         for pos,i in enumerate(list):
+            # print(self.position[0]-frame.position[0])
             self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),pos,0])
         update_list=[]
         for i in self.photon_list:
@@ -166,7 +167,7 @@ class Star(GameObject):
             i[2]=i[2]+speed_of_light
             x=i[0][0]
             y=i[0][1]
-            distance=math.sqrt(x**2+y**2)
+            distance=math.sqrt(x**2+y**2)-734.3
             if distance<=i[2]:
                 self.output_list[i[1]]=penrose_transformation(player,i[0])
             else:
