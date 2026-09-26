@@ -158,8 +158,8 @@ class Star(GameObject):
         return lorentz_transformation(player,self.position,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
     def get_shape_observed(self,frame):
         list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-        for i in list:
-            self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),list.index(i),0])
+        for pos,i in enumerate(list):
+            self.photon_list.append([(i[0]+self.position[0],i[1]+self.position[1]),pos,0])
         update_list=[]
         for i in self.photon_list:
             i[0]=(i[0][0]+frame.x_velocity*speed_of_light,i[0][1]+frame.y_velocity*speed_of_light)
