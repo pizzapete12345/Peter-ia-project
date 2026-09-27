@@ -6,6 +6,7 @@ from constants import speed_of_light
 
 class Player:
     def __init__(self):
+        self.vertices = [(0, 25), (25, -25), (-25, -25)]
 
         self.p1 = (0, 25)
         self.p2 = (25, -25)
@@ -23,14 +24,13 @@ class Player:
 
     def render(self, window):
         self.reset = False
+        withpos = []
+        for i in self.vertices:
+            withpos.append((i[0] + self.position[0], i[1] + self.position[1]))
         pygame.draw.polygon(
             window,
             self.color,
-            [
-                (self.p1[0] + self.position[0], self.p1[1] + self.position[1]),
-                (self.p2[0] + self.position[0], self.p2[1] + self.position[1]),
-                (self.p3[0] + self.position[0], self.p3[1] + self.position[1]),
-            ],
+            withpos,
             width=0,
         )
 
@@ -73,16 +73,12 @@ class Player:
             self.x_velocity = -0.99 * math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
-            self.p1 = rotates(self.p1, 1)
-            self.p2 = rotates(self.p2, 1)
-            self.p3 = rotates(self.p3, 1)
+            self.vertices = rotates(self.vertices, 1)
 
             self.angle = self.angle + 0.0175
 
         if key_pressed[pygame.K_q]:
-            self.p1 = rotates(self.p1, -1)
-            self.p2 = rotates(self.p2, -1)
-            self.p3 = rotates(self.p3, -1)
+            self.vertices = rotates(self.vertices, -1)
 
             self.angle = self.angle - 0.0175
 

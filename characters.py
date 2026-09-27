@@ -53,9 +53,6 @@ class GameObject:
         pygame.draw.polygon(window, color, shape_measured, width=0)
 
 
-
-
-
 player = Player()
 
 

@@ -2,9 +2,12 @@ import math
 import pygame
 
 
-def rotates(point, amount):
-    vector = pygame.math.Vector2(point)
-    return vector.rotate(amount)
+def rotates(list, amount):
+    changed = []
+    for point in list:
+        vector = pygame.math.Vector2(point)
+        changed.append(vector.rotate(amount))
+    return changed
 
 
 def dampening(object, dampening_constant):
