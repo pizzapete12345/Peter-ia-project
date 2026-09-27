@@ -2,12 +2,7 @@ import pygame
 import math
 
 from vector_functions import rotates
-from vector_functions import (
-    dampening,
-    lorentz_transformation,
-    penrose_transformation,
-    lorentz_calculator,
-)
+from vector_functions import dampening, lorentz_transformation
 from constants import speed_of_light
 
 
@@ -52,12 +47,6 @@ class GameObject:
                 shape_original[i][1] + self.position[1],
             )
             shape_original[i] = new_tuple
-        # for i in range(len(shape_observed)):
-        #   new_tuple=(
-        #  shape_observed[i][0]+self.position[0],
-        # shape_observed[i][1]+self.position[1]
-        # )
-        # shape_observed[i]=new_tuple
 
         pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
         pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
@@ -193,16 +182,6 @@ class Star(GameObject):
         )
 
     def get_shape_observed(self, frame):
-        list = [
-            (20, 20),
-            (45, 0),
-            (20, -20),
-            (0, -45),
-            (-20, -20),
-            (-45, 0),
-            (-20, 20),
-            (0, 45),
-        ]
         offset = self.get_shape_measured()
 
         observer_x, observer_y = frame.position

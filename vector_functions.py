@@ -77,13 +77,6 @@ def detect_key(key):
         return True
 
 
-def lorentz_calculator(frame):
-    relative_xvelocity = frame.x_velocity
-    relative_yvelocity = frame.y_velocity
-    relative_velocity = math.sqrt(relative_xvelocity**2 + relative_yvelocity**2)
-    return 1 / math.sqrt(1 - (relative_velocity**2))
-
-
 def lorentz_transformation(frame, object_positition, coordinates):
     output = []
 
@@ -113,31 +106,3 @@ def lorentz_transformation(frame, object_positition, coordinates):
         output.append((x + 640 - object_positition[0], y + 360 - object_positition[1]))
 
     return output
-
-
-def penrose_transformation(frame, vertex):
-
-    relative_xvelocity = frame.x_velocity
-    relative_yvelocity = frame.y_velocity
-
-    relative_velocity = math.sqrt(relative_xvelocity**2 + relative_yvelocity**2)
-    x = vertex[0] - 640
-    y = vertex[1] - 360
-    if relative_velocity < 10e-12:
-        return (x + 640, y + 360)
-
-    lorentz_factor = 1 / math.sqrt(1 - (relative_velocity**2))
-
-    dotproduct = x * relative_xvelocity + y * relative_yvelocity
-    the_part_that_changes = dotproduct / relative_velocity**2
-
-    parralelx = the_part_that_changes * relative_xvelocity
-    parralely = the_part_that_changes * relative_yvelocity
-    perpendiculerx = x - parralelx
-    perpendiculery = y - parralely
-
-    x = perpendiculerx + parralelx / lorentz_factor
-    y = perpendiculery + parralely / lorentz_factor
-    vertex = (x + 640, y + 360)
-
-    return vertex
