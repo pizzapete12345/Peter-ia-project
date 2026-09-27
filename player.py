@@ -3,6 +3,9 @@ import math
 from vector_functions import rotates, dampening
 from constants import speed_of_light
 
+render_mode_c=True
+render_mode_m=True
+renfer_mode_o=True
 
 class Player:
     def __init__(self):
@@ -31,7 +34,13 @@ class Player:
         )
 
     def movement(self):
+
+        global render_mode_c
+        global render_mode_m
+        global renfer_mode_o
+
         key_pressed = pygame.key.get_pressed()
+
         acceleration = 0.003 * (
             1 - (self.x_velocity**2 + self.y_velocity**2) / speed_of_light**2
         )
@@ -52,30 +61,35 @@ class Player:
 
             self.angle = self.angle + 0.0175
 
+        if key_pressed[pygame.K_e]:
+            self.vertices = rotates(self.vertices, 1)
+
+            self.angle = self.angle + 0.0175
+
         if key_pressed[pygame.K_a]:
             self.vertices = rotates(self.vertices, -1)
 
             self.angle = self.angle - 0.0175
 
         if key_pressed[pygame.K_1]:
-            self.y_velocity = 0
-            self.x_velocity = 0
+            render_mode_c = True
+            print(render_mode_c)   
 
         if key_pressed[pygame.K_2]:
-            self.y_velocity = 0.25 * math.cos(self.angle)
-            self.x_velocity = -0.25 * math.sin(self.angle)
+            render_mode_m = True
 
         if key_pressed[pygame.K_3]:
-            self.y_velocity = 0.5 * math.cos(self.angle)
-            self.x_velocity = -0.5 * math.sin(self.angle)
+           renfer_mode_o = True
 
         if key_pressed[pygame.K_4]:
-            self.y_velocity = 0.75 * math.cos(self.angle)
-            self.x_velocity = -0.75 * math.sin(self.angle)
+            render_mode_c = False
+            print(render_mode_c)   
 
         if key_pressed[pygame.K_5]:
-            self.y_velocity = 0.99 * math.cos(self.angle)
-            self.x_velocity = -0.99 * math.sin(self.angle)
+            render_mode_m = False
+
+        if key_pressed[pygame.K_6]:
+           renfer_mode_o = False
 
         if key_pressed[pygame.K_b]:
             dampening(self, 0.01)

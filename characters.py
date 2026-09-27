@@ -28,14 +28,20 @@ class GameObject:
             self.color = (255, 0, 0)
 
     def render(self, window):
+
+        from player import render_mode_m,render_mode_c,renfer_mode_o
+
         shape_measured = translate(self.get_shape_measured(),self.position)
         shape_observed = self.get_shape_observed(player)
         shape_original = translate(self.get_shape_original(),self.position)
 
 
-        pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
-        pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
-        pygame.draw.polygon(window, self.color, shape_measured, width=0)
+        if render_mode_c:
+            pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
+        if renfer_mode_o:
+            pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
+        if render_mode_m:
+            pygame.draw.polygon(window, self.color, shape_measured, width=0)
 
 
 player = Player()
@@ -89,12 +95,19 @@ class Star(GameObject):
     def get_shape_original(self):
         return [
             (20, 20),
+            (32.5, 10),
             (45, 0),
+            (32.5,-10),
             (20, -20),
+            (10,-32.5),
             (0, -45),
+            (-10,-32.5),
             (-20, -20),
+            (-32.5,-10),
             (-45, 0),
+            (-32.5,10),
             (-20, 20),
+            (-10,32.5),
             (0, 45),
         ]
 
