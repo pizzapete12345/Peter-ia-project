@@ -39,11 +39,11 @@ class Player:
         if math.sqrt(self.x_velocity**2 + self.y_velocity**2) > 0.99:
             dampening(self, 0.01)
 
-        if key_pressed[pygame.K_w]: #accelerate backward
+        if key_pressed[pygame.K_w]:  # accelerate backward
             self.y_velocity = self.y_velocity + acceleration * math.cos(self.angle)
             self.x_velocity = self.x_velocity - acceleration * math.sin(self.angle)
 
-        if key_pressed[pygame.K_s]: #acce
+        if key_pressed[pygame.K_s]:  # acce
             self.y_velocity = self.y_velocity - acceleration * math.cos(self.angle)
             self.x_velocity = self.x_velocity + acceleration * math.sin(self.angle)
 
@@ -51,7 +51,6 @@ class Player:
             self.vertices = rotates(self.vertices, 1)
 
             self.angle = self.angle + 0.0175
-
 
         if key_pressed[pygame.K_a]:
             self.vertices = rotates(self.vertices, -1)
@@ -77,8 +76,6 @@ class Player:
         if key_pressed[pygame.K_5]:
             self.y_velocity = 0.99 * math.cos(self.angle)
             self.x_velocity = -0.99 * math.sin(self.angle)
-
-
 
         if key_pressed[pygame.K_b]:
             dampening(self, 0.01)
