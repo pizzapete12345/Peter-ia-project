@@ -89,7 +89,7 @@ class Star(GameObject):
             dy = y - observer_y
 
             a = speed_of_light - photon_velocity_magnitude
-            b = -2.0 * (dx * photon_velocityx + dy + photon_velocity)
+            b = -2.0 * (dx * photon_velocityx + dy * photon_velocity)
             c = -(dx**2 + dy**2)
 
             discrimanent = b**2 - 4.0 * a * c
