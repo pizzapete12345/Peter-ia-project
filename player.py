@@ -6,13 +6,13 @@ from constants import speed_of_light
 
 class Player:
     def __init__(self):
-        self.vertices = [(0, 25), (25, -25), (-25, -25)]
+        self.vertices = [(0, 30), (25, -25),(0,-15), (-25, -25)]
 
         self.p1 = (0, 25)
         self.p2 = (25, -25)
         self.p3 = (-25, -25)
 
-        self.color = (255, 0, 0)
+        self.color = (169, 169, 169)
 
         self.x_velocity = 0
         self.y_velocity = 0
