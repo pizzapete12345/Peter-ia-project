@@ -1,200 +1,255 @@
 import pygame
 import math
 
-from vector_functions import rotates 
-from vector_functions import dampening,lorentz_transformation,penrose_transformation,lorentz_calculator
+from vector_functions import rotates
+from vector_functions import (
+    dampening,
+    lorentz_transformation,
+    penrose_transformation,
+    lorentz_calculator,
+)
 from constants import speed_of_light
 
+
 class GameObject:
-    def __init__(self,position,x_velocity,y_velocity,color):
-        self.position=position
-        self.x_velocity=x_velocity
-        self.y_velocity=y_velocity
-        self.color=color
-    def render(self,window):
-        shape_measured=self.get_shape_measured()
-        shape_observed=self.get_shape_observed(player)
-        shape_original=self.get_shape_original()
-        color=(0,0,0)
-        if self.color=="g1":
-            color=(255, 244, 234)
-        elif self.color=="o1":
-            color=(155, 176, 255)
-        elif self.color=="b1":
-            color=(170, 191, 255)
-        elif self.color=="a1":
-            color=(202, 215, 255)
-        elif self.color=="f1":
-            color=(248, 247, 255)
-        elif self.color=="k1":
-            color=(255, 210, 161)
-        elif self.color=="m1":
-            color=(255, 204, 111)
+    def __init__(self, position, x_velocity, y_velocity, color):
+        self.position = position
+        self.x_velocity = x_velocity
+        self.y_velocity = y_velocity
+        self.color = color
+
+    def render(self, window):
+        shape_measured = self.get_shape_measured()
+        shape_observed = self.get_shape_observed(player)
+        shape_original = self.get_shape_original()
+        color = (0, 0, 0)
+        if self.color == "g1":
+            color = (255, 244, 234)
+        elif self.color == "o1":
+            color = (155, 176, 255)
+        elif self.color == "b1":
+            color = (170, 191, 255)
+        elif self.color == "a1":
+            color = (202, 215, 255)
+        elif self.color == "f1":
+            color = (248, 247, 255)
+        elif self.color == "k1":
+            color = (255, 210, 161)
+        elif self.color == "m1":
+            color = (255, 204, 111)
         else:
-            color=(255,0,0)
+            color = (255, 0, 0)
         for i in range(len(shape_measured)):
-            new_tuple=(
-            shape_measured[i][0]+self.position[0],
-            shape_measured[i][1]+self.position[1]
+            new_tuple = (
+                shape_measured[i][0] + self.position[0],
+                shape_measured[i][1] + self.position[1],
             )
-            shape_measured[i]=new_tuple
+            shape_measured[i] = new_tuple
 
         for i in range(len(shape_original)):
-            new_tuple=(
-            shape_original[i][0]+self.position[0],
-            shape_original[i][1]+self.position[1]
+            new_tuple = (
+                shape_original[i][0] + self.position[0],
+                shape_original[i][1] + self.position[1],
             )
-            shape_original[i]=new_tuple
-        #for i in range(len(shape_observed)):
-         #   new_tuple=(
-          #  shape_observed[i][0]+self.position[0],
-           # shape_observed[i][1]+self.position[1]
-            #)
-            #shape_observed[i]=new_tuple
+            shape_original[i] = new_tuple
+        # for i in range(len(shape_observed)):
+        #   new_tuple=(
+        #  shape_observed[i][0]+self.position[0],
+        # shape_observed[i][1]+self.position[1]
+        # )
+        # shape_observed[i]=new_tuple
 
-        pygame.draw.polygon(window,(255,0,0),shape_original,width=0)
-        pygame.draw.polygon(window,(0,255,0),shape_observed,width=0)
-        pygame.draw.polygon(window,color,shape_measured,width=0)
+        pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
+        pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
+        pygame.draw.polygon(window, color, shape_measured, width=0)
 
 
-
-class Player():
+class Player:
     def __init__(self):
 
-        self.p1=(0,25)
-        self.p2=(25,-25)
-        self.p3=(-25,-25)
+        self.p1 = (0, 25)
+        self.p2 = (25, -25)
+        self.p3 = (-25, -25)
 
-        self.color=(255,0,0)
+        self.color = (255, 0, 0)
 
-        self.x_velocity=0
-        self.y_velocity=0
-        self.position=(640,360)
+        self.x_velocity = 0
+        self.y_velocity = 0
+        self.position = (640, 360)
 
-        self.angle=3.1415
+        self.angle = 3.1415
 
-        self.reset=False
+        self.reset = False
 
-    def render(self,window):
-        self.reset=False
-        pygame.draw.polygon(window,self.color,[(self.p1[0]+self.position[0],self.p1[1]+self.position[1]),(self.p2[0]+self.position[0],self.p2[1]+self.position[1]),(self.p3[0]+self.position[0],self.p3[1]+self.position[1])],width=0)
-        
-    
+    def render(self, window):
+        self.reset = False
+        pygame.draw.polygon(
+            window,
+            self.color,
+            [
+                (self.p1[0] + self.position[0], self.p1[1] + self.position[1]),
+                (self.p2[0] + self.position[0], self.p2[1] + self.position[1]),
+                (self.p3[0] + self.position[0], self.p3[1] + self.position[1]),
+            ],
+            width=0,
+        )
+
     def movement(self):
-        key_pressed=pygame.key.get_pressed()
-        acceleration=0.01*(1-(self.x_velocity**2+self.y_velocity**2)/speed_of_light**2)
+        key_pressed = pygame.key.get_pressed()
+        acceleration = 0.01 * (
+            1 - (self.x_velocity**2 + self.y_velocity**2) / speed_of_light**2
+        )
 
-        if math.sqrt(self.x_velocity**2+self.y_velocity**2)>0.99:
-            dampening(self,0.01)
-
+        if math.sqrt(self.x_velocity**2 + self.y_velocity**2) > 0.99:
+            dampening(self, 0.01)
 
         if key_pressed[pygame.K_w]:
-            self.y_velocity=self.y_velocity+acceleration*math.cos(self.angle)
-            self.x_velocity=self.x_velocity-acceleration*math.sin(self.angle)
+            self.y_velocity = self.y_velocity + acceleration * math.cos(self.angle)
+            self.x_velocity = self.x_velocity - acceleration * math.sin(self.angle)
 
         if key_pressed[pygame.K_s]:
-            self.y_velocity=self.y_velocity-acceleration*math.cos(self.angle)
-            self.x_velocity=self.x_velocity+acceleration*math.sin(self.angle)
+            self.y_velocity = self.y_velocity - acceleration * math.cos(self.angle)
+            self.x_velocity = self.x_velocity + acceleration * math.sin(self.angle)
         if key_pressed[pygame.K_d]:
-            self.x_velocity=self.x_velocity-acceleration*math.cos(self.angle)
-            self.y_velocity=self.y_velocity-acceleration*math.sin(self.angle)
+            self.x_velocity = self.x_velocity - acceleration * math.cos(self.angle)
+            self.y_velocity = self.y_velocity - acceleration * math.sin(self.angle)
         if key_pressed[pygame.K_a]:
-                self.x_velocity=self.x_velocity+acceleration*math.cos(self.angle)
-                self.y_velocity=self.y_velocity+acceleration*math.sin(self.angle)
+            self.x_velocity = self.x_velocity + acceleration * math.cos(self.angle)
+            self.y_velocity = self.y_velocity + acceleration * math.sin(self.angle)
         if key_pressed[pygame.K_1]:
-            self.y_velocity=0
-            self.x_velocity=0
+            self.y_velocity = 0
+            self.x_velocity = 0
         if key_pressed[pygame.K_2]:
-            self.y_velocity=0.25*math.cos(self.angle)
-            self.x_velocity=-0.25*math.sin(self.angle)
+            self.y_velocity = 0.25 * math.cos(self.angle)
+            self.x_velocity = -0.25 * math.sin(self.angle)
         if key_pressed[pygame.K_3]:
-            self.y_velocity=0.5*math.cos(self.angle)
-            self.x_velocity=-0.5*math.sin(self.angle)
+            self.y_velocity = 0.5 * math.cos(self.angle)
+            self.x_velocity = -0.5 * math.sin(self.angle)
         if key_pressed[pygame.K_4]:
-            self.y_velocity=0.75*math.cos(self.angle)
-            self.x_velocity=-0.75*math.sin(self.angle)
+            self.y_velocity = 0.75 * math.cos(self.angle)
+            self.x_velocity = -0.75 * math.sin(self.angle)
         if key_pressed[pygame.K_5]:
-            self.y_velocity=0.99*math.cos(self.angle)
-            self.x_velocity=-0.99*math.sin(self.angle)
+            self.y_velocity = 0.99 * math.cos(self.angle)
+            self.x_velocity = -0.99 * math.sin(self.angle)
 
         if key_pressed[pygame.K_e]:
-            self.p1=rotates(self.p1,1)
-            self.p2=rotates(self.p2,1)
-            self.p3=rotates(self.p3,1)
+            self.p1 = rotates(self.p1, 1)
+            self.p2 = rotates(self.p2, 1)
+            self.p3 = rotates(self.p3, 1)
 
-            self.angle=self.angle+0.0175
+            self.angle = self.angle + 0.0175
 
         if key_pressed[pygame.K_q]:
-            self.p1=rotates(self.p1,-1)
-            self.p2=rotates(self.p2,-1)
-            self.p3=rotates(self.p3,-1)
+            self.p1 = rotates(self.p1, -1)
+            self.p2 = rotates(self.p2, -1)
+            self.p3 = rotates(self.p3, -1)
 
-            self.angle=self.angle-0.0175
+            self.angle = self.angle - 0.0175
 
         if key_pressed[pygame.K_b]:
-            dampening(self,0.01)
+            dampening(self, 0.01)
 
         if key_pressed[pygame.K_r]:
-            self.reset=True
-            self.x_velocity=0
-            self.y_velocity=0
+            self.reset = True
+            self.x_velocity = 0
+            self.y_velocity = 0
 
-            
-player=Player()        
-        
+
+player = Player()
+
 
 class Star(GameObject):
     def __init__(self, position, x_velocity, y_velocity, color):
-        super().__init__(position, x_velocity, y_velocity,color)
-        self.orgin_position=self.position
-        self.photon_list=[]
-        self.lastknown=self.position
-        self.output_list=[(660, 380),(685,360), (660, 340),(640,315) ,(620, 340),(595,360),(620, 380),(640,405)]
-        self.color=color
-        
+        super().__init__(position, x_velocity, y_velocity, color)
+        self.orgin_position = self.position
+        self.photon_list = []
+        self.lastknown = self.position
+        self.output_list = [
+            (660, 380),
+            (685, 360),
+            (660, 340),
+            (640, 315),
+            (620, 340),
+            (595, 360),
+            (620, 380),
+            (640, 405),
+        ]
+        self.color = color
 
     def get_shape_measured(self):
-        return lorentz_transformation(player,self.position,[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)])
-    
-    def get_shape_observed(self,frame):
-        list=[(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-        offset=self.get_shape_measured()
+        return lorentz_transformation(
+            player,
+            self.position,
+            [
+                (20, 20),
+                (45, 0),
+                (20, -20),
+                (0, -45),
+                (-20, -20),
+                (-45, 0),
+                (-20, 20),
+                (0, 45),
+            ],
+        )
 
-        observer_x,observer_y=frame.position
-        photon_velocityx=speed_of_light*frame.x_velocity
-        photon_velocity=speed_of_light*frame.y_velocity
-        photon_velocity_magnitude=math.sqrt(photon_velocityx**2+photon_velocity**2)
+    def get_shape_observed(self, frame):
+        list = [
+            (20, 20),
+            (45, 0),
+            (20, -20),
+            (0, -45),
+            (-20, -20),
+            (-45, 0),
+            (-20, 20),
+            (0, 45),
+        ]
+        offset = self.get_shape_measured()
 
-        observed_shape=[]
+        observer_x, observer_y = frame.position
+        photon_velocityx = speed_of_light * frame.x_velocity
+        photon_velocity = speed_of_light * frame.y_velocity
+        photon_velocity_magnitude = math.sqrt(photon_velocityx**2 + photon_velocity**2)
+
+        observed_shape = []
 
         for i in offset:
-            x=i[0]+self.position[0]
-            y=i[1]+self.position[1]
+            x = i[0] + self.position[0]
+            y = i[1] + self.position[1]
 
-            dx=x-observer_x
-            dy=y-observer_y
+            dx = x - observer_x
+            dy = y - observer_y
 
-            a=speed_of_light-photon_velocity_magnitude
-            b=-2.0*(dx*photon_velocityx+dy+photon_velocity)
-            c=-(dx**2+dy**2)
+            a = speed_of_light - photon_velocity_magnitude
+            b = -2.0 * (dx * photon_velocityx + dy + photon_velocity)
+            c = -(dx**2 + dy**2)
 
-            discrimanent=b**2-4.0*a*c
-            if discrimanent<0:
-                discrimanent=0
-            time_of_emmission=(-b-math.sqrt(discrimanent))/(2.0*a)
+            discrimanent = b**2 - 4.0 * a * c
+            if discrimanent < 0:
+                discrimanent = 0
+            time_of_emmission = (-b - math.sqrt(discrimanent)) / (2.0 * a)
 
-            x_observed=x+photon_velocityx*time_of_emmission
-            y_observed=y+photon_velocity*time_of_emmission
+            x_observed = x + photon_velocityx * time_of_emmission
+            y_observed = y + photon_velocity * time_of_emmission
 
-            observed_shape.append((x_observed,y_observed))
+            observed_shape.append((x_observed, y_observed))
         return observed_shape
 
-                
-
     def get_shape_original(self):
-        return [(20, 20),(45,0), (20, -20),(0,-45) ,(-20, -20),(-45,0),(-20, 20),(0,45)]
-    def update(self,frame):
-        self.position=(self.position[0]+speed_of_light*frame.x_velocity,self.position[1]+speed_of_light*frame.y_velocity)
-        if frame.reset==True:
-            self.position=self.orgin_position
+        return [
+            (20, 20),
+            (45, 0),
+            (20, -20),
+            (0, -45),
+            (-20, -20),
+            (-45, 0),
+            (-20, 20),
+            (0, 45),
+        ]
 
+    def update(self, frame):
+        self.position = (
+            self.position[0] + speed_of_light * frame.x_velocity,
+            self.position[1] + speed_of_light * frame.y_velocity,
+        )
+        if frame.reset == True:
+            self.position = self.orgin_position

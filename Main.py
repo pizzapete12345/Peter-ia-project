@@ -1,94 +1,95 @@
 import pygame
 import math
+
 pygame.init()
-from characters import Star,player
+from characters import Star, player
 from vector_functions import detect_key
 
+starlist = []
+with open("starlist.txt", "r") as file:
 
-starlist=[]
-with open('starlist.txt','r') as file:
     for line in file:
 
-        word=""
-        name=""
-        type=""
-        increaser=0
-        coordinates=""
+        word = ""
+        name = ""
+        type = ""
+        increaser = 0
+        coordinates = ""
 
         for i in line:
-            
             if i == "/":
-                if increaser==0:
-                    name=word
-                    increaser=1
-                elif increaser==1:
-                    type=word
-                    increaser=2
-                elif increaser==2:
-                    coordinates=tuple(float(x) for x in word.split(","))
-                    increaser=0
-
-                word=""
+                if increaser == 0:
+                    name = word
+                    increaser = 1
+                elif increaser == 1:
+                    type = word
+                    increaser = 2
+                elif increaser == 2:
+                    coordinates = tuple(float(x) for x in word.split(","))
+                    increaser = 0
+                word = ""
             else:
-                word=word+i
+                word = word + i
 
-        starlist.append(Star(coordinates,0,0,type))
-            
-
-
-
-
+        starlist.append(Star(coordinates, 0, 0, type))
 
 pygame.init()
-screen = pygame.display.set_mode((1280,720))
-clock=pygame.time.Clock()
+screen = pygame.display.set_mode((1280, 720))
+clock = pygame.time.Clock()
 running = True
-current_screen=0
+current_screen = 0
 
-
-font=pygame.font.Font(None, 50)
-text_vdisplay=font.render(f"velocity = {str(round(math.sqrt(player.x_velocity**2+player.y_velocity**2),2))}",True,(255,255,255))
-
-
-
+font = pygame.font.Font(None, 50)
+text_vdisplay = font.render(
+    f"velocity = {str(round(math.sqrt(player.x_velocity**2+player.y_velocity**2),2))}",
+    True,
+    (255, 255, 255),
+)
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running=False
-    screen.fill((0,0,0))
+            running = False
+
+    screen.fill((0, 0, 0))
 
     if current_screen == 0:
         if detect_key(pygame.K_SPACE):
-            current_screen=1
-        screen.blit(font.render("W,A,S,D for movement",True,(255,255,255)),(640,330))
-        screen.blit(font.render("Q,E to rotate",True,(255,255,255)),(640,290))
-        screen.blit(font.render("B to brake",True,(255,255,255)),(640,250))
-        screen.blit(font.render("R to reset",True,(255,255,255)),(640,210))
-        screen.blit(font.render("press space to start",True,(255,255,255)),(640,170))
-
-
+            current_screen = 1
+        screen.blit(
+            font.render("W,A,S,D for movement", True, (255, 255, 255)), (640, 330)
+        )
+        screen.blit(font.render("Q,E to rotate", True, (255, 255, 255)), (640, 290))
+        screen.blit(font.render("B to brake", True, (255, 255, 255)), (640, 250))
+        screen.blit(font.render("R to reset", True, (255, 255, 255)), (640, 210))
+        screen.blit(
+            font.render("press space to start", True, (255, 255, 255)), (640, 170)
+        )
 
     if current_screen == 1:
         player.render(screen)
         player.movement()
+
         for i in starlist:
             i.render(screen)
             i.update(player)
 
-        screen.blit(text_vdisplay,(0,0))
-        text_vdisplay=font.render(f"velocity = {str(round(math.sqrt(player.x_velocity**2+player.y_velocity**2),2))}",True,(255,255,255))
-        text_ydisplay=font.render(f"y_velocity = {str(round(player.y_velocity,2))}",True,(255,255,255))
-        screen.blit(text_ydisplay,(0,50))
-        text_xdisplay=font.render(f"x_velocity = {str(round(player.x_velocity,2))}",True,(255,255,255))
-        screen.blit(text_xdisplay,(0,100))
-
-
+        screen.blit(text_vdisplay, (0, 0))
+        text_vdisplay = font.render(
+            f"velocity = {str(round(math.sqrt(player.x_velocity**2+player.y_velocity**2),2))}",
+            True,
+            (255, 255, 255),
+        )
+        text_ydisplay = font.render(
+            f"y_velocity = {str(round(player.y_velocity,2))}", True, (255, 255, 255)
+        )
+        screen.blit(text_ydisplay, (0, 50))
+        text_xdisplay = font.render(
+            f"x_velocity = {str(round(player.x_velocity,2))}", True, (255, 255, 255)
+        )
+        screen.blit(text_xdisplay, (0, 100))
 
     pygame.display.flip()
     clock.tick(60)
 
-
 pygame.quit()
-
-
