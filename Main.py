@@ -31,7 +31,7 @@ with open("starlist.txt", "r") as file:
             else:
                 word = word + i
 
-        starlist.append(Star(coordinates, 0, 0, type))
+        starlist.append(Star(coordinates, type))
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))

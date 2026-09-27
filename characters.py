@@ -7,30 +7,28 @@ from player import Player
 
 
 class GameObject:
-    def __init__(self, position, x_velocity, y_velocity, color):
+    def __init__(self, position, star_type):
         self.position = position
-        self.x_velocity = x_velocity
-        self.y_velocity = y_velocity
-        self.color = color
+        self.star_type = star_type
 
     def render(self, window):
         shape_measured = self.get_shape_measured()
         shape_observed = self.get_shape_observed(player)
         shape_original = self.get_shape_original()
         color = (0, 0, 0)
-        if self.color == "g1":
+        if self.star_type == "g1":
             color = (255, 244, 234)
-        elif self.color == "o1":
+        elif self.star_type == "o1":
             color = (155, 176, 255)
-        elif self.color == "b1":
+        elif self.star_type == "b1":
             color = (170, 191, 255)
-        elif self.color == "a1":
+        elif self.star_type == "a1":
             color = (202, 215, 255)
-        elif self.color == "f1":
+        elif self.star_type == "f1":
             color = (248, 247, 255)
-        elif self.color == "k1":
+        elif self.star_type == "k1":
             color = (255, 210, 161)
-        elif self.color == "m1":
+        elif self.star_type == "m1":
             color = (255, 204, 111)
         else:
             color = (255, 0, 0)
@@ -57,8 +55,8 @@ player = Player()
 
 
 class Star(GameObject):
-    def __init__(self, position, x_velocity, y_velocity, color):
-        super().__init__(position, x_velocity, y_velocity, color)
+    def __init__(self, position, color):
+        super().__init__(position, color)
         self.orgin_position = self.position
         self.photon_list = []
         self.lastknown = self.position
