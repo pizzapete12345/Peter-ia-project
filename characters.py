@@ -153,32 +153,13 @@ class Star(GameObject):
         self.orgin_position = self.position
         self.photon_list = []
         self.lastknown = self.position
-        self.output_list = [
-            (660, 380),
-            (685, 360),
-            (660, 340),
-            (640, 315),
-            (620, 340),
-            (595, 360),
-            (620, 380),
-            (640, 405),
-        ]
         self.color = color
 
     def get_shape_measured(self):
         return lorentz_transformation(
             player,
             self.position,
-            [
-                (20, 20),
-                (45, 0),
-                (20, -20),
-                (0, -45),
-                (-20, -20),
-                (-45, 0),
-                (-20, 20),
-                (0, 45),
-            ],
+            self.get_shape_original(),
         )
 
     def get_shape_observed(self, frame):
