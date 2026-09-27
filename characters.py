@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from vector_functions import lorentz_transformation
+from vector_functions import lorentz_transformation,translate
 from constants import speed_of_light
 from player import Player
 
@@ -10,57 +10,42 @@ class GameObject:
     def __init__(self, position, star_type):
         self.position = position
         self.star_type = star_type
+        if self.star_type == "g1":
+            self.color = (255, 244, 234)
+        elif self.star_type == "o1":
+            self.color = (155, 176, 255)
+        elif self.star_type == "b1":
+            self.color = (170, 191, 255)
+        elif self.star_type == "a1":
+            self.color = (202, 215, 255)
+        elif self.star_type == "f1":
+            self.color = (248, 247, 255)
+        elif self.star_type == "k1":
+            self.color = (255, 210, 161)
+        elif self.star_type == "m1":
+            self.color = (255, 204, 111)
+        else:
+            self.color = (255, 0, 0)
 
     def render(self, window):
-        shape_measured = self.get_shape_measured()
+        shape_measured = translate(self.get_shape_measured(),self.position)
         shape_observed = self.get_shape_observed(player)
-        shape_original = self.get_shape_original()
-        color = (0, 0, 0)
-        if self.star_type == "g1":
-            color = (255, 244, 234)
-        elif self.star_type == "o1":
-            color = (155, 176, 255)
-        elif self.star_type == "b1":
-            color = (170, 191, 255)
-        elif self.star_type == "a1":
-            color = (202, 215, 255)
-        elif self.star_type == "f1":
-            color = (248, 247, 255)
-        elif self.star_type == "k1":
-            color = (255, 210, 161)
-        elif self.star_type == "m1":
-            color = (255, 204, 111)
-        else:
-            color = (255, 0, 0)
-        for i in range(len(shape_measured)):
-            new_tuple = (
-                shape_measured[i][0] + self.position[0],
-                shape_measured[i][1] + self.position[1],
-            )
-            shape_measured[i] = new_tuple
+        shape_original = translate(self.get_shape_original(),self.position)
 
-        for i in range(len(shape_original)):
-            new_tuple = (
-                shape_original[i][0] + self.position[0],
-                shape_original[i][1] + self.position[1],
-            )
-            shape_original[i] = new_tuple
 
         pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
         pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
-        pygame.draw.polygon(window, color, shape_measured, width=0)
+        pygame.draw.polygon(window, self.color, shape_measured, width=0)
 
 
 player = Player()
 
 
 class Star(GameObject):
-    def __init__(self, position, color):
-        super().__init__(position, color)
+    def __init__(self, position, star_type):
+        super().__init__(position, star_type)
         self.orgin_position = self.position
-        self.photon_list = []
         self.lastknown = self.position
-        self.color = color
 
     def get_shape_measured(self):
         return lorentz_transformation(

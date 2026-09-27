@@ -109,3 +109,9 @@ def lorentz_transformation(frame, object_positition, coordinates):
         output.append((x + 640 - object_positition[0], y + 360 - object_positition[1]))
 
     return output
+
+def translate(coordinate_list,position):
+    output=[]
+    for i in coordinate_list:
+        output.append((i[0]+position[0],i[1]+position[1]))
+    return(output)
