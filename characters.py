@@ -46,10 +46,10 @@ class GameObject:
 
         if render_mode_c:
             pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
-        if renfer_mode_o:
-            pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
         if render_mode_m:
-            pygame.draw.polygon(window, corrected_colour, shape_measured, width=0)
+            pygame.draw.polygon(window,(0, 255, 0), shape_measured, width=0)
+        if renfer_mode_o:
+            pygame.draw.polygon(window, corrected_colour, shape_observed, width=0)
 
 
 player = Player()
