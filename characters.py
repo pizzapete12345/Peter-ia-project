@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from vector_functions import lorentz_transformation,translate
+from vector_functions import lorentz_transformation,translate,actual_redshift
 from constants import speed_of_light
 from player import Player
 
@@ -35,13 +35,21 @@ class GameObject:
         shape_observed = self.get_shape_observed(player)
         shape_original = translate(self.get_shape_original(),self.position)
 
+        
+        corrected_colour=actual_redshift(player,self)
+        if corrected_colour[0]>255:
+            corrected_colour=(255,corrected_colour[1],corrected_colour[2])
+        if corrected_colour[1]>255:
+            corrected_colour=(corrected_colour[0],255,corrected_colour[2])
+        if corrected_colour[2]>255:
+            corrected_colour=(corrected_colour[0],corrected_colour[1],255)
 
         if render_mode_c:
             pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
         if renfer_mode_o:
             pygame.draw.polygon(window, (0, 255, 0), shape_observed, width=0)
         if render_mode_m:
-            pygame.draw.polygon(window, self.color, shape_measured, width=0)
+            pygame.draw.polygon(window, corrected_colour, shape_measured, width=0)
 
 
 player = Player()
