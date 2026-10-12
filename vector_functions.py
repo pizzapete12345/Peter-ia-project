@@ -137,46 +137,52 @@ def redshift(frame,object):
 
     return math.sqrt(1-(relative_velocity**2))/(1-(relative_velocity*math.cos(relative_angle)))
 
-def rgb_to_xyz(color):
-    corrected_rgb=(color[0]/255,color[1]/255,color[2]/255)
-
-    if color[0]<=255:
-        linearr=color[0]/12.92
-    else:
-        linearr=((color[0]+0.055)/1.055)**2.4
-
-    if color[1]<=255:
-        linearg=color[1]/12.92
-    else:
-        linearg=((color[1]+0.055)/1.055)**2
-
-    if color[2]<=255:
-        linearb=color[2]/12.92
-    else:
-        linearb=((color[2]+0.055)/1.055)**2
-
-    return (linearr*0.4125+linearg*0.3576+linearb*0.1804,linearr*0.2127+linearg*0.7152+linearb*0.0722,linearr*0.0193+linearg*0.1192+linearb*0.9503)
 
 
 def actual_redshift(frame,object):
-    xyz=rgb_to_xyz(object.color)
-    factor=redshift(frame,object)
 
-    shifted=(xyz[0]*factor,xyz[1]*factor,xyz[2]*factor)
+    magnitude=math.sqrt((object.position[0]-640)**2+(object.position[1]-360)**2)
 
-    linear=(3.2404542 * shifted[0] - 1.5371385 * shifted[1] - 0.4985314 * shifted[2],-0.9692660 * shifted[0] + 1.8760108 * shifted[1] + 0.0415560 * shifted[2],0.0556434 * shifted[0] - 0.2040259 * shifted[1] + 1.0572252 * shifted[2])
-
-    if linear[0]<=0.0031318:
-        r=linear[0]*12.92
+    if magnitude<10e-12:
+        relative_velocity=0
     else:
-        r=1.055*(linear[0])**(1/2.4)-0.055
-    if linear[1]<=0.0031318:
-        g=linear[1]*12.92
-    else:
-        g=1.055*(linear[1])**(1/2.4)-0.055
-    if linear[2]<=0.0031318:
-        b=linear[2]*12.92
-    else:
-        b=1.055*(linear[2])**(1/2.4)-0.055
+        relative_velocity=(frame.x_velocity*(object.position[0]-640)+frame.y_velocity*(object.position[1]-360))/magnitude
 
-    return (r*70,g*70,b*70)
+    if relative_velocity<0:
+        factor=(redshift(frame,object)-1)
+        print("velocity lower")
+    else:
+        factor=(redshift(frame,object)-1)*-1
+        print("velocity greater")
+
+
+    
+    color=object.color
+
+    red=color[0]-(color[0]*factor*0.1)
+    blue=color[1]-(color[1]*factor*0.7)
+    green=color[2]-(color[2]*factor*0.9)
+
+    if red<10e-12:
+        red=0
+    elif red>255:
+        red=255
+    if blue<10e-12:
+        blue=0
+    elif blue>255:
+        blue=255
+    if green<10e-12:
+        green=0
+    elif green>255:
+        green=255
+
+    output=(red,blue,green)
+
+    print(factor)
+    print(output)
+
+    return output
+
+
+
+
