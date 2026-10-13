@@ -24,6 +24,8 @@ class GameObject:
             self.color = (255, 210, 161)
         elif self.star_type == "m1":
             self.color = (255, 204, 111)
+        elif self.star_type == "y1":
+            self.color = (165,42,42)
         else:
             self.color = (255, 0, 0)
 

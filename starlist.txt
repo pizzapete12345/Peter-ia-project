@@ -1,5 +1,10 @@
 sun/g1/640,360/
-alphacentauria/g1/839,-11/
-alphacentaurib/k1/855,-12/
-bernard/m1/1238,402/
-name/g1/1031,-159/
+alpha centauri/g1/528,445/
+bernard/m1/636,788/
+luhman 16/y1/374,255/
+wise-0855-0714/y1/269,-28/
+wolf-359/m1/100,206/
+sirius/a1/528,-222/
+epsilon eridani/k1/1085,-236/
+tau ceti/g1/1380,-3/
+altair/a1/1191,1415/
