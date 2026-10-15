@@ -7,7 +7,8 @@ from player import Player
 
 
 class GameObject:
-    def __init__(self, position, star_type):
+    def __init__(self, name, position, star_type):
+        self.name=name
         self.position = position
         self.star_type = star_type
         if self.star_type == "g1":
@@ -53,13 +54,17 @@ class GameObject:
         if renfer_mode_o:
             pygame.draw.polygon(window, corrected_colour, shape_observed, width=0)
 
+        offset=(len(self.name)*7)/2    
+        font = pygame.font.Font(None, 25)
+        window.blit(font.render(self.name, True, (255, 255, 255)), (self.position[0]-offset, self.position[1]+50))
+
 
 player = Player()
 
 
 class Star(GameObject):
-    def __init__(self, position, star_type):
-        super().__init__(position, star_type)
+    def __init__(self, name, position, star_type):
+        super().__init__(name,position, star_type)
         self.orgin_position = self.position
         self.lastknown = self.position
 

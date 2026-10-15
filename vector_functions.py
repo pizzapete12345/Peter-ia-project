@@ -146,25 +146,15 @@ def actual_redshift(frame,object):
     if factor>1:
         factor=1
 
-    #if magnitude<10e-12:
-    #    relative_velocity=0
-    #else:
-    #    relative_velocity=(frame.x_velocity*(object.position[0]-640)+frame.y_velocity*(object.position[1]-360))/magnitude
 
-    #if relative_velocity<0:
-    #    factor=(redshift(frame,object)-1)
-    #    print("velocity lower")
-    #else:
-    #    factor=(redshift(frame,object)-1)*-1
-    #    print("velocity greater")
 
 
     
     color=object.color
 
-    red=color[0]*factor    #-(color[0]*factor*0.1)
-    blue=color[1]*factor**2          #-(color[1]*factor*0.7)
-    green=color[2]*factor**3         #-(color[2]*factor*0.9)
+    red=color[0]*factor  
+    blue=color[1]*factor**2      
+    green=color[2]*factor**3  
 
     if red<10e-12:
         red=0
@@ -180,9 +170,6 @@ def actual_redshift(frame,object):
         green=255
 
     output=(red,blue,green)
-
-    print(factor)
-    print(output)
 
     return output
 
