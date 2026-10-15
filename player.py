@@ -3,9 +3,10 @@ import math
 from vector_functions import rotates, dampening
 from constants import speed_of_light
 
-render_mode_c=True
-render_mode_m=True
-renfer_mode_o=True
+render_mode_c = True
+render_mode_m = True
+renfer_mode_o = True
+
 
 class Player:
     def __init__(self):
@@ -73,23 +74,23 @@ class Player:
 
         if key_pressed[pygame.K_1]:
             render_mode_c = True
-            print(render_mode_c)   
+            print(render_mode_c)
 
         if key_pressed[pygame.K_2]:
             render_mode_m = True
 
         if key_pressed[pygame.K_3]:
-           renfer_mode_o = True
+            renfer_mode_o = True
 
         if key_pressed[pygame.K_4]:
             render_mode_c = False
-            print(render_mode_c)   
+            print(render_mode_c)
 
         if key_pressed[pygame.K_5]:
             render_mode_m = False
 
         if key_pressed[pygame.K_6]:
-           renfer_mode_o = False
+            renfer_mode_o = False
 
         if key_pressed[pygame.K_b]:
             dampening(self, 0.01)

@@ -1,6 +1,7 @@
 import math
 import pygame
 
+
 def rotates(list, amount):
     changed = []
     for point in list:
@@ -109,70 +110,68 @@ def lorentz_transformation(frame, object_positition, coordinates):
 
     return output
 
-def translate(coordinate_list,position):
-    output=[]
+
+def translate(coordinate_list, position):
+    output = []
     for i in coordinate_list:
-        output.append((i[0]+position[0],i[1]+position[1]))
-    return(output)
-
-def redshift(frame,object):
-
-    magnitude=math.sqrt((object.position[0]-640)**2+(object.position[1]-360)**2)
-
-    if magnitude<10e-12:
-        return 1
-
-    antifloat_check_variable=math.sqrt(frame.x_velocity**2+frame.y_velocity**2)
-
-    if antifloat_check_variable<10e-12:
-        return 1
-
-    relative_velocity=(frame.x_velocity*(object.position[0]-640)+frame.y_velocity*(object.position[1]-360))/magnitude
-
-
-    velocity_anlge=math.acos(frame.x_velocity/magnitude)
-    position_angle=math.atan((object.position[1]-360)/(object.position[0]-640))
-    relative_angle=position_angle-velocity_anlge
-
-
-    return math.sqrt(1-(relative_velocity**2))/(1-(relative_velocity*math.cos(relative_angle)))
-
-
-
-def actual_redshift(frame,object):
-
-    factor=redshift(frame,object)
-
-    if factor>1:
-        factor=1
-
-
-
-
-    
-    color=object.color
-
-    red=color[0]*factor  
-    blue=color[1]*factor**2      
-    green=color[2]*factor**3  
-
-    if red<10e-12:
-        red=0
-    elif red>255:
-        red=255
-    if blue<10e-12:
-        blue=0
-    elif blue>255:
-        blue=255
-    if green<10e-12:
-        green=0
-    elif green>255:
-        green=255
-
-    output=(red,blue,green)
-
+        output.append((i[0] + position[0], i[1] + position[1]))
     return output
 
 
+def redshift(frame, object):
+
+    magnitude = math.sqrt(
+        (object.position[0] - 640) ** 2 + (object.position[1] - 360) ** 2
+    )
+
+    if magnitude < 10e-12:
+        return 1
+
+    antifloat_check_variable = math.sqrt(frame.x_velocity**2 + frame.y_velocity**2)
+
+    if antifloat_check_variable < 10e-12:
+        return 1
+
+    relative_velocity = (
+        frame.x_velocity * (object.position[0] - 640)
+        + frame.y_velocity * (object.position[1] - 360)
+    ) / magnitude
+
+    velocity_anlge = math.acos(frame.x_velocity / magnitude)
+    position_angle = math.atan((object.position[1] - 360) / (object.position[0] - 640))
+    relative_angle = position_angle - velocity_anlge
+
+    return math.sqrt(1 - (relative_velocity**2)) / (
+        1 - (relative_velocity * math.cos(relative_angle))
+    )
 
 
+def actual_redshift(frame, object):
+
+    factor = redshift(frame, object)
+
+    if factor > 1:
+        factor = 1
+
+    color = object.color
+
+    red = color[0] * factor
+    blue = color[1] * factor**2
+    green = color[2] * factor**3
+
+    if red < 10e-12:
+        red = 0
+    elif red > 255:
+        red = 255
+    if blue < 10e-12:
+        blue = 0
+    elif blue > 255:
+        blue = 255
+    if green < 10e-12:
+        green = 0
+    elif green > 255:
+        green = 255
+
+    output = (red, blue, green)
+
+    return output

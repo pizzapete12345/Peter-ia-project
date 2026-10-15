@@ -1,14 +1,14 @@
 import pygame
 import math
 
-from vector_functions import lorentz_transformation,translate,actual_redshift
+from vector_functions import lorentz_transformation, translate, actual_redshift
 from constants import speed_of_light
 from player import Player
 
 
 class GameObject:
     def __init__(self, name, position, star_type):
-        self.name=name
+        self.name = name
         self.position = position
         self.star_type = star_type
         if self.star_type == "g1":
@@ -26,37 +26,39 @@ class GameObject:
         elif self.star_type == "m1":
             self.color = (255, 204, 111)
         elif self.star_type == "y1":
-            self.color = (165,42,42)
+            self.color = (165, 42, 42)
         else:
             self.color = (255, 0, 0)
 
     def render(self, window):
 
-        from player import render_mode_m,render_mode_c,renfer_mode_o
+        from player import render_mode_m, render_mode_c, renfer_mode_o
 
-        shape_measured = translate(self.get_shape_measured(),self.position)
+        shape_measured = translate(self.get_shape_measured(), self.position)
         shape_observed = self.get_shape_observed(player)
-        shape_original = translate(self.get_shape_original(),self.position)
+        shape_original = translate(self.get_shape_original(), self.position)
 
-        
-        corrected_colour=actual_redshift(player,self)
-        if corrected_colour[0]>255:
-            corrected_colour=(255,corrected_colour[1],corrected_colour[2])
-        if corrected_colour[1]>255:
-            corrected_colour=(corrected_colour[0],255,corrected_colour[2])
-        if corrected_colour[2]>255:
-            corrected_colour=(corrected_colour[0],corrected_colour[1],255)
+        corrected_colour = actual_redshift(player, self)
+        if corrected_colour[0] > 255:
+            corrected_colour = (255, corrected_colour[1], corrected_colour[2])
+        if corrected_colour[1] > 255:
+            corrected_colour = (corrected_colour[0], 255, corrected_colour[2])
+        if corrected_colour[2] > 255:
+            corrected_colour = (corrected_colour[0], corrected_colour[1], 255)
 
         if render_mode_c:
             pygame.draw.polygon(window, (255, 0, 0), shape_original, width=0)
         if render_mode_m:
-            pygame.draw.polygon(window,(0, 255, 0), shape_measured, width=0)
+            pygame.draw.polygon(window, (0, 255, 0), shape_measured, width=0)
         if renfer_mode_o:
             pygame.draw.polygon(window, corrected_colour, shape_observed, width=0)
 
-        offset=(len(self.name)*7)/2    
+        offset = (len(self.name) * 7) / 2
         font = pygame.font.Font(None, 25)
-        window.blit(font.render(self.name, True, (255, 255, 255)), (self.position[0]-offset, self.position[1]+50))
+        window.blit(
+            font.render(self.name, True, (255, 255, 255)),
+            (self.position[0] - offset, self.position[1] + 50),
+        )
 
 
 player = Player()
@@ -64,7 +66,7 @@ player = Player()
 
 class Star(GameObject):
     def __init__(self, name, position, star_type):
-        super().__init__(name,position, star_type)
+        super().__init__(name, position, star_type)
         self.orgin_position = self.position
         self.lastknown = self.position
 
@@ -112,17 +114,17 @@ class Star(GameObject):
             (20, 20),
             (32.5, 10),
             (45, 0),
-            (32.5,-10),
+            (32.5, -10),
             (20, -20),
-            (10,-32.5),
+            (10, -32.5),
             (0, -45),
-            (-10,-32.5),
+            (-10, -32.5),
             (-20, -20),
-            (-32.5,-10),
+            (-32.5, -10),
             (-45, 0),
-            (-32.5,10),
+            (-32.5, 10),
             (-20, 20),
-            (-10,32.5),
+            (-10, 32.5),
             (0, 45),
         ]
 

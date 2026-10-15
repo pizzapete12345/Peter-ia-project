@@ -4,7 +4,3 @@ bernard/m1/636,788/
 luhman 16/y1/374,255/
 wise-0855-0714/y1/269,-28/
 wolf-359/m1/100,206/
-sirius/a1/528,-222/
-epsilon eridani/k1/1085,-236/
-tau ceti/g1/1380,-3/
-altair/a1/1191,1415/

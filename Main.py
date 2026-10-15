@@ -57,13 +57,20 @@ while running:
         if detect_key(pygame.K_SPACE):
             current_screen = 1
         screen.blit(
-            font.render("W,A,S,D for movement", True, (255, 255, 255)), (640, 330)
+            font.render("W,D to move forwards and backwards", True, (255, 255, 255)),
+            (500, 330),
         )
-        screen.blit(font.render("Q,E to rotate", True, (255, 255, 255)), (640, 290))
-        screen.blit(font.render("B to brake", True, (255, 255, 255)), (640, 250))
-        screen.blit(font.render("R to reset", True, (255, 255, 255)), (640, 210))
+        screen.blit(font.render("A,D to rotate", True, (255, 255, 255)), (500, 290))
+        screen.blit(font.render("B to brake", True, (255, 255, 255)), (500, 250))
+        screen.blit(font.render("R to reset", True, (255, 255, 255)), (500, 210))
         screen.blit(
-            font.render("press space to start", True, (255, 255, 255)), (640, 170)
+            font.render(
+                "Use the number keys to enable/disable views", True, (255, 255, 255)
+            ),
+            (500, 170),
+        )
+        screen.blit(
+            font.render("press space to start", True, (255, 255, 255)), (500, 130)
         )
 
     if current_screen == 1:
@@ -80,14 +87,6 @@ while running:
             True,
             (255, 255, 255),
         )
-        text_ydisplay = font.render(
-            f"y_velocity = {str(round(player.y_velocity,2))}", True, (255, 255, 255)
-        )
-        screen.blit(text_ydisplay, (0, 50))
-        text_xdisplay = font.render(
-            f"x_velocity = {str(round(player.x_velocity,2))}", True, (255, 255, 255)
-        )
-        screen.blit(text_xdisplay, (0, 100))
 
     pygame.display.flip()
     clock.tick(60)
